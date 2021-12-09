@@ -1,3 +1,4 @@
 # BRILDAQ niVisa
 
-Interface API  to programe instruments supporting NI VISA protocol 
+API for programming tools that support the NI VISA protocol
+
