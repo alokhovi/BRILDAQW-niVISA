@@ -4,14 +4,67 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(CMAKE_CXX_STANDARD 14)
 
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/config/version.txt" VERSION_STRING)
+
+string(REGEX MATCHALL "([^.]+)" VERSION_NUMBERS ${VERSION_STRING})
+
+list(LENGTH VERSION_NUMBERS N)
+
+if( "${N}" LESS 3 )
+   message(FATAL_ERROR, "${CMAKE_CURRENT_SOURCE_DIR}/config/version.txt Wrong version string format. It should be as 1.0.0")  
+   return()
+endif()
+
+list(GET VERSION_NUMBERS    0 N )
+set(BRILDAQNIVISA_MAJOR_VERSION ${N})
+list(GET VERSION_NUMBERS    1 N )
+set(BRILDAQNIVISA_MINOR_VERSION ${N})
+list(GET VERSION_NUMBERS    2 N )
+set(BRILDAQNIVISA_PATCH_VERSION ${N})
+
+set(BRILDAQNIVISA_VERSION ${BRILDAQNIVISA_MAJOR_VERSION}.${BRILDAQNIVISA_MINOR_VERSION}.${BRILDAQNIVISA_PATCH_VERSION})
+
+message(STATUS "The project version: ${BRILDAQNIVISA_VERSION}")
+
+set(BOOST_ROOT /opt/boost_1_78_0)
+
 project(brildaq_nivisa)
 
+find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+
+
 file(GLOB SOURCES "src/*.cpp")
+
+configure_file("${PROJECT_SOURCE_DIR}/config/version.h.in" "${PROJECT_SOURCE_DIR}/include/Version.hpp" @ONLY)
 
 include(CTest) 
 
 enable_testing()
 
-add_executable(instrument ${SOURCES})
+add_library(brildaqnivisa ${SOURCES})
 
-target_include_directories(instrument PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(brildaqnivisa PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(brildaqnivisa PRIVATE ${Boost_INCLUDE_DIR})
+
+add_executable(tekscope_devtest test/tekscope_devtest.cpp)
+
+target_include_directories(tekscope_devtest PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(tekscope_devtest PRIVATE ${Boost_INCLUDE_DIR})
+
+target_link_libraries(tekscope_devtest brildaqnivisa  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+
+add_definitions (-DBOOST_TEST_DYN_LINK)
+
+if(APPLE)
+   set(NI_VISA /Library/Frameworks/VISA.framework/Versions/A/Headers)
+   if(EXISTS "${NI_VISA}")
+      target_include_directories(brildaqnivisa    PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
+      target_include_directories(tekscope_devtest PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
+      message(STATUS, "NI-VISA softwasre is installed.")  
+   else()
+      message(FATAL_ERROR, "${NI_VISA} forlder doesn't exist. NI-VISA softwasre is required.")  
+      return()
+   endif()
+endif (APPLE)
+
+add_test(TEKSCOPE tekscope_devtest)
