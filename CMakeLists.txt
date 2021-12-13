@@ -35,7 +35,7 @@ find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
 file(GLOB SOURCES "src/*.cpp")
 
-configure_file("${PROJECT_SOURCE_DIR}/config/version.h.in" "${PROJECT_SOURCE_DIR}/include/Version.hpp" @ONLY)
+configure_file("${PROJECT_SOURCE_DIR}/config/version.h.in" "${PROJECT_SOURCE_DIR}/include/version.hpp" @ONLY)
 
 include(CTest) 
 
@@ -53,6 +53,13 @@ target_include_directories(tekscope_devtest PRIVATE ${Boost_INCLUDE_DIR})
 
 target_link_libraries(tekscope_devtest brildaqnivisa  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
+add_executable(tekscope src/main.cpp)
+
+target_include_directories(tekscope PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(tekscope PRIVATE ${Boost_INCLUDE_DIR})
+
+target_link_libraries(tekscope brildaqnivisa  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+
 add_definitions (-DBOOST_TEST_DYN_LINK)
 
 if(APPLE)
@@ -60,6 +67,7 @@ if(APPLE)
    if(EXISTS "${NI_VISA}")
       target_include_directories(brildaqnivisa    PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
       target_include_directories(tekscope_devtest PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
+      target_include_directories(tekscope         PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
       message(STATUS, "NI-VISA softwasre is installed.")  
    else()
       message(FATAL_ERROR, "${NI_VISA} forlder doesn't exist. NI-VISA softwasre is required.")  
@@ -67,4 +75,7 @@ if(APPLE)
    endif()
 endif (APPLE)
 
+
 add_test(TEKSCOPE tekscope_devtest)
+
+set_tests_properties(TEKSCOPE PROPERTIES ENVIRONMENT "BOOST_TEST_LOG_LEVEL=message")

@@ -7,13 +7,24 @@
 
 BOOST_AUTO_TEST_CASE( instantiation_test )
 {
-  brildaq::nivisa::TekScope scope;
+  brildaq::nivisa::TekScope scope; scope.enableProfiling();
+  
+  scope.startProfiler("devtest");  sleep(1);
 
-  BOOST_TEST( scope.isConnected() );
+  auto duration = scope.stopProfiler("devtest");
+
+  scope.startProfiler("devtest");  sleep(2);
+
+  duration = scope.stopProfiler("devtest");
+
+  BOOST_TEST_MESSAGE("===Duration of the devtest " << duration.count() << " ms ===") ;
+
+  BOOST_TEST( duration.count() >= 1000 ); 
+
+  auto stat = scope.getProfilerStat("devtest");
+
+  BOOST_TEST_MESSAGE("===Stat: " << stat.first << "  " << stat.second ) ;
+
+  BOOST_TEST( (stat.first == 2 && stat.second == 2 )); 
 
 }
-
-// int main()
-// {
-//   brildaq::nivisa::TekScope scope;   std::cout << scope.isConnected() << std::endl;
-// }
