@@ -6,8 +6,15 @@
 
 using namespace brildaq::nivisa;
 
-Status   Interface::connect(const ViString & resource)
+Status Interface::connect(const ViString & resource)
 {
+    ViStatus status= viOpenDefaultRM(&_defaultResourceManager);
+
+    if (status < VI_SUCCESS) 
+    {
+		printf("viOpenDefaultRM() error: 0x%x\n", status); return std::make_pair(VI_SUCCESS,std::string("Cannot open default NI-VISA resource manager"));
+    }
+
     return std::make_pair(VI_SUCCESS,boost::none);
 }
 

@@ -28,9 +28,15 @@ namespace brildaq
 
         bool isConnected() const { return _isConnected; }
 
+      private:
+
+        bool      _isConnected = false;
+
+        ViSession _defaultResourceManager;
+
       protected:
 
-        bool _isConnected = false;
+        ViSession _instrumentSession;
       };
     }
 }

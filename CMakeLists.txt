@@ -42,6 +42,8 @@ enable_testing()
 
 add_library(brildaqnivisa ${SOURCES})
 
+# extra libs (NI-VIS, etc) are added to link time at the botom otf the file in target_link_libraries(brildaqnivisa....
+
 target_include_directories(brildaqnivisa PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(brildaqnivisa PRIVATE ${Boost_INCLUDE_DIR})
 
@@ -62,12 +64,20 @@ target_link_libraries(tekscope brildaqnivisa  ${Boost_UNIT_TEST_FRAMEWORK_LIBRAR
 add_definitions (-DBOOST_TEST_DYN_LINK)
 
 if(APPLE)
-   set(NI_VISA /Library/Frameworks/VISA.framework/Versions/A/Headers)
+   find_library(VISA_LIBRARY VISA)
+
+   MARK_AS_ADVANCED(VISA_LIBRARY)
+
+   set(NI_VISA "${VISA_LIBRARY}/Versions/A/Headers")
+
    if(EXISTS "${NI_VISA}")
       target_include_directories(brildaqnivisa    PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
       target_include_directories(tekscope_devtest PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
       target_include_directories(tekscope         PRIVATE /Library/Frameworks/VISA.framework/Versions/A/Headers)
-      message(STATUS, "NI-VISA softwasre is installed.")  
+
+      set(EXTRA_LIBS ${VISA_LIBRARY})
+      
+      message("-- NI-VISA softwasre is installed and linked with the project.")  
    else()
       message(FATAL_ERROR, "${NI_VISA} forlder doesn't exist. NI-VISA softwasre is required.")  
       return()
@@ -87,7 +97,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
    endif()
 endif()
 
+target_link_libraries(brildaqnivisa  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${EXTRA_LIBS})
 
+#
+# ctest BOOST Unit Test invocation
+#
 add_test(TEKSCOPE tekscope_devtest)
 
 set_tests_properties(TEKSCOPE PROPERTIES ENVIRONMENT "BOOST_TEST_LOG_LEVEL=message")
+
