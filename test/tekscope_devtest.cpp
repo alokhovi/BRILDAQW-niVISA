@@ -19,12 +19,11 @@ BOOST_AUTO_TEST_CASE( instantiation_test )
 
   BOOST_TEST_MESSAGE("===Duration of the devtest " << duration.count() << " ms ===") ;
 
-  BOOST_TEST( duration.count() >= 1000 ); 
+  BOOST_CHECK( duration.count() >= 1000 ); 
 
   auto stat = scope.getProfilerStat("devtest");
 
   BOOST_TEST_MESSAGE("===Stat: " << stat.first << "  " << stat.second ) ;
 
-  BOOST_TEST( (stat.first == 2 && stat.second == 2 )); 
-
+  BOOST_CHECK( (stat.first == 2 && stat.second == 2 )); 
 }
