@@ -32,7 +32,6 @@ project(brildaq_nivisa)
 
 find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
-
 file(GLOB SOURCES "src/*.cpp")
 
 configure_file("${PROJECT_SOURCE_DIR}/config/version.h.in" "${PROJECT_SOURCE_DIR}/include/version.hpp" @ONLY)
@@ -74,6 +73,19 @@ if(APPLE)
       return()
    endif()
 endif (APPLE)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+   set(NI_VISA /usr/include/ni-visa)
+   if(EXISTS "${NI_VISA}")
+      target_include_directories(brildaqnivisa    PRIVATE /usr/include/ni-visa)
+      target_include_directories(tekscope_devtest PRIVATE /usr/include/ni-visa)
+      target_include_directories(tekscope         PRIVATE /usr/include/ni-visa)
+      message(STATUS, "NI-VISA softwasre is installed.")  
+   else()
+      message(FATAL_ERROR, "${NI_VISA} forlder doesn't exist. NI-VISA softwasre is required.")  
+      return()
+   endif()
+endif()
 
 
 add_test(TEKSCOPE tekscope_devtest)

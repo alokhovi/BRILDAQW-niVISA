@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <numeric>
+#include <cstring>
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
