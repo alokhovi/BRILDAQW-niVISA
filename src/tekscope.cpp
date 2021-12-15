@@ -70,7 +70,7 @@ int TekScope::dumpProfile(const std::string & action, const std::string & fileNa
         {
             try 
             {
-                of << "Action " << action << "was not profiled." << std::endl;
+                of << "Action " << action << " was not profiled." << std::endl;
                 
             }
             catch (std::ifstream::failure e) 

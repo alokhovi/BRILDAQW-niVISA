@@ -5,8 +5,8 @@
 
 #include <map>
 #include <vector>
-#include <visa.h> 
-
+#include <visa.h>
+  
 namespace brildaq
 {
     namespace nivisa
@@ -16,9 +16,14 @@ namespace brildaq
 
       class Interface
       {
+      private:
+
+        bool      _isConnected            = false;
+        ViSession _defaultResourceManager = 0;
+
       public:
 
-        virtual Status   connect(const ViString & resource);
+        virtual Status   connect(const ViString & resource, bool exclusiveLock = false);
         virtual void     disconnect();
         virtual Status   write(const ViString & command);
         virtual Data     read();
@@ -26,17 +31,13 @@ namespace brildaq
         
         virtual ~Interface() { if (_isConnected) disconnect(); }
 
-        bool isConnected() const { return _isConnected; }
+        bool     isConnected() const    { return _isConnected; }
 
-      private:
-
-        bool      _isConnected = false;
-
-        ViSession _defaultResourceManager;
+        ViSession getDefaultRM() const { return _defaultResourceManager; }
 
       protected:
 
-        ViSession _instrumentSession;
+        ViSession _instrumentSession      = 0;
       };
     }
 }

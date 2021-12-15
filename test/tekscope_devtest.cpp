@@ -5,25 +5,32 @@
 
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE( instantiation_test )
+BOOST_AUTO_TEST_CASE( connection_profiling_test )
 {
-  brildaq::nivisa::TekScope scope; scope.enableProfiling();
+  brildaq::nivisa::TekScope scope; 
+
+  scope.connect(ViString("")); scope.disconnect();
   
-  scope.startProfiler("devtest");  sleep(1);
+  scope.enableProfiling();
 
-  auto duration = scope.stopProfiler("devtest");
+  for( int i=0; i < 10; i++ )
+  {  
+    BOOST_TEST_MESSAGE("===Loop: i= " << i << "  of 10 ") ;
 
-  scope.startProfiler("devtest");  sleep(2);
+    scope.startProfiler("devtest");
 
-  duration = scope.stopProfiler("devtest");
+    brildaq::nivisa::Status status = scope.connect(ViString("TCPIP::10.176.62.25::INSTR"));
 
-  BOOST_TEST_MESSAGE("===Duration of the devtest " << duration.count() << " ms ===") ;
+    if ( status.first != VI_SUCCESS )
+    {
+      BOOST_TEST_MESSAGE("===Stat: " << status.first << "  " << status.second.value()) ;
+    }
+    BOOST_CHECK((status.first == VI_SUCCESS || status.first == VI_ERROR_TMO));
 
-  BOOST_CHECK( duration.count() >= 1000 ); 
+    scope.disconnect();
 
-  auto stat = scope.getProfilerStat("devtest");
+    scope.stopProfiler("devtest");
+  }
 
-  BOOST_TEST_MESSAGE("===Stat: " << stat.first << "  " << stat.second ) ;
-
-  BOOST_CHECK( (stat.first == 2 && stat.second == 2 )); 
+  scope.dumpProfile("devtest", "profiling.csv", true);
 }
