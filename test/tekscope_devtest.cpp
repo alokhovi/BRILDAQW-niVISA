@@ -19,6 +19,8 @@ BOOST_AUTO_TEST_CASE( connection_profiling_test )
 
     scope.startProfiler("devtest");
 
+    // test only in the CMS network
+    
     brildaq::nivisa::Status status = scope.connect(ViString("TCPIP::10.176.62.25::INSTR"));
 
     if ( status.first != VI_SUCCESS )
