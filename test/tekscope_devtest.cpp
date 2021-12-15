@@ -13,9 +13,9 @@ BOOST_AUTO_TEST_CASE( connection_profiling_test )
   
   scope.enableProfiling();
 
-  for( int i=0; i < 10; i++ )
+  for( int i=0; i < 100; i++ )
   {  
-    BOOST_TEST_MESSAGE("===Loop: i= " << i << "  of 10 ") ;
+    BOOST_TEST_MESSAGE("===Loop: i= " << i << "  of 100 ") ;
 
     scope.startProfiler("devtest");
 
@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE( connection_profiling_test )
 
     if ( status.first != VI_SUCCESS )
     {
-      BOOST_TEST_MESSAGE("===Stat: " << status.first << "  " << status.second.value()) ;
+      BOOST_TEST_MESSAGE("===Stat: " << status.first << "  " << status.second) ;
     }
     BOOST_CHECK((status.first == VI_SUCCESS || status.first == VI_ERROR_TMO));
 

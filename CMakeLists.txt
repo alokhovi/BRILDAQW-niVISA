@@ -85,11 +85,18 @@ if(APPLE)
 endif (APPLE)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+   find_library(VISA_LIBRARY visa /usr/lib)
+
    set(NI_VISA /usr/include/ni-visa)
+
    if(EXISTS "${NI_VISA}")
       target_include_directories(brildaqnivisa    PRIVATE /usr/include/ni-visa)
       target_include_directories(tekscope_devtest PRIVATE /usr/include/ni-visa)
       target_include_directories(tekscope         PRIVATE /usr/include/ni-visa)
+      
+      set(EXTRA_LIBS ${VISA_LIBRARY})
+
       message(STATUS, "NI-VISA softwasre is installed.")  
    else()
       message(FATAL_ERROR, "${NI_VISA} forlder doesn't exist. NI-VISA softwasre is required.")  
