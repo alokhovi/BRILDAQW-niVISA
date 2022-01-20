@@ -86,7 +86,7 @@ endif (APPLE)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-   find_library(VISA_LIBRARY visa /usr/lib)
+   find_library(VISA_LIBRARY visa /usr/lib/x86_64-linux-gnu)
 
    set(NI_VISA /usr/include/ni-visa)
 
@@ -109,7 +109,7 @@ target_link_libraries(brildaqnivisa  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${EXTR
 #
 # ctest BOOST Unit Test invocation
 #
-add_test(TEKSCOPE tekscope_devtest)
+add_test(TEKSCOPE tekscope_devtest )
 
 set_tests_properties(TEKSCOPE PROPERTIES ENVIRONMENT "BOOST_TEST_LOG_LEVEL=message")
 

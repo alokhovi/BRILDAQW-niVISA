@@ -7,23 +7,17 @@ int main()
 
   scope.enableProfiling();
 
-  scope.startProfiler("devtest");  sleep(1);
+  scope.startProfiler("devtest"); 
   
-  scope.stopProfiler("devtest");
+  brildaq::nivisa::Status status = scope.connect(ViString("TCPIP::10.176.62.25::4000::SOCKET"),800 /* ms */);
 
-  scope.startProfiler("devtest");  sleep(2);
+  brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
 
-  scope.stopProfiler("devtest");
+  std::cout << data.first << " - "  << data.second << std::endl;
 
-   scope.startProfiler("devtest");  sleep(1);
-  
-  scope.stopProfiler("devtest");
-
-  scope.startProfiler("devtest");  sleep(2);
+  scope.disconnect();
 
   scope.stopProfiler("devtest");
-
-  auto stat = scope.getProfilerStat("devtest");
 
   return 0;
 }

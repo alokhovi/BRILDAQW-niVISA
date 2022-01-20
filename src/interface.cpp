@@ -1,12 +1,15 @@
 #include <iostream>
+#include <cstring>
 
+#include <chrono>
+#include <thread>
 
 #include "interface.hpp"
 #include "tekscope.hpp"
 
 using namespace brildaq::nivisa;
 
-Status Interface::connect(const ViString & resource, bool exclusiveLock)
+Status Interface::connect(const ViString & resource, ViAttrState timeout, bool exclusiveLock) noexcept
 {
     if ( _isConnected )
     {
@@ -33,12 +36,28 @@ Status Interface::connect(const ViString & resource, bool exclusiveLock)
 		return std::make_pair(status,std::string("Cannot open the resource: ")+resource);
     }
 
-    assert (viSetAttribute (_instrumentSession, VI_ATTR_TMO_VALUE,800)   ==  VI_SUCCESS);
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    assert (viSetAttribute (_instrumentSession, VI_ATTR_TMO_VALUE,timeout)   ==  VI_SUCCESS);
+
+    _buffer[0] = VI_NULL;
+
+	status = viGetAttribute(_instrumentSession, VI_ATTR_RSRC_NAME, _buffer);
+
+	if (0 == strcmp(&_buffer[strlen(_buffer) - strlen("SOCKET")], "SOCKET")) 
+    {
+        _isSocket = true;
+
+    	viSetAttribute(_instrumentSession, VI_ATTR_TERMCHAR,    LINEFEED_CHAR);
+        viSetAttribute(_instrumentSession, VI_ATTR_TERMCHAR_EN, VI_TRUE      );
+	}
+
+    viSetAttribute(_instrumentSession, VI_ATTR_WR_BUF_OPER_MODE, VI_FLUSH_ON_ACCESS);
 
     _isConnected = true; return std::make_pair(VI_SUCCESS,boost::none);
 }
 
-void Interface::disconnect()
+void Interface::disconnect()  noexcept
 {
     if (_defaultResourceManager > 0 ) viClose(_defaultResourceManager);
 
@@ -47,17 +66,98 @@ void Interface::disconnect()
     _isConnected = false;
 }
 
-Data  Interface::write(const ViString & command)
+Data Interface::query(const ViString & command)  noexcept
 {
-    return std::make_pair(VI_SUCCESS,boost::none);
+    assert(_isConnected);     
+
+    assert(command[strlen(command)-1] == '?'); // not a query command
+
+    ViStatus status; ViUInt32 read;
+
+    std::string lc(command);
+
+    if ( _isSocket )
+    {
+        lc += LINEFEED_CHAR;
+    }
+
+    for( uint16_t nTry=0; nTry < MAX_NUMBER_OF_QUERY_TRIES; nTry++ )
+    {
+        _buffer[0] = VI_NULL;
+
+        status = viWrite(_instrumentSession, (ViBuf)lc.c_str(), lc.length(), &read); 
+
+        if (status <  VI_SUCCESS) 
+        {
+            if ( nTry == MAX_NUMBER_OF_QUERY_TRIES-1 )
+            {
+                return std::make_pair(status,std::string("Writing the following query command has failed: ") + command);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        else
+        {
+         assert(lc.length() == read); break;
+        }
+    }
+    for( uint16_t nTry=0; nTry < MAX_NUMBER_OF_QUERY_TRIES; nTry++ )
+    {
+        _buffer[0] = VI_NULL;
+
+        status = viRead(_instrumentSession,(ViBuf)_buffer, MAX_FORMATTED_BUFFER_SIZE, &read);
+
+        if (status <  VI_SUCCESS) 
+        {
+            if ( nTry == MAX_NUMBER_OF_QUERY_TRIES-1 )
+            {
+                viStatusDesc(_instrumentSession, status, _buffer);
+
+                return std::make_pair(status,std::string("Reading has failed: ")+_buffer);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        else
+        {
+            //
+            // in case of SOCKET, the status will be VI_SUCCESS_TERM_CHAR
+            //
+            _buffer[strlen(_buffer)-1] = '\0'; return std::make_pair(status,std::string(_buffer));
+        }
+    }
+    disconnect(); return std::make_pair(VI_ERROR_CONN_LOST,"") ; 
 }
 
-Status   Interface::read()
+Status Interface::write(const ViString & command)  noexcept
 {
-    return std::make_pair(VI_SUCCESS,boost::none);
-}
+    assert(_isConnected);     
 
-Status   Interface::query(const ViString & command)
-{
-    return std::make_pair(VI_SUCCESS,boost::none);
+    ViStatus status; ViUInt32 read;
+
+    std::string lc(command);
+
+    if ( _isSocket )
+    {
+        lc += LINEFEED_CHAR;
+    }
+
+    for( uint16_t nTry=0; nTry < MAX_NUMBER_OF_QUERY_TRIES; nTry++ )
+    {
+        _buffer[0] = VI_NULL;
+
+        status = viWrite(_instrumentSession, (ViBuf)lc.c_str(), lc.length(), &read); 
+
+        if (status <  VI_SUCCESS) 
+        {
+            if ( nTry == MAX_NUMBER_OF_QUERY_TRIES-1 )
+            {
+                return std::make_pair(status,std::string("Writing the following query command has failed: ") + command);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        else
+        {
+            assert(lc.length() == read); return std::make_pair(VI_SUCCESS,boost::none);
+        }
+    }
+    disconnect(); return std::make_pair(VI_ERROR_CONN_LOST,boost::none) ; 
 }
