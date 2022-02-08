@@ -11,11 +11,8 @@ using namespace brildaq::nivisa;
 
 Status Interface::connect(const ViString & resource, ViAttrState timeout, bool exclusiveLock) noexcept
 {
-    if ( _isConnected )
-    {
-        return std::make_pair(VI_SUCCESS,boost::none);
-    }
-
+    assert( !_isConnected );
+    
     ViStatus status= viOpenDefaultRM(&_defaultResourceManager);
 
     if (status < VI_SUCCESS) 
@@ -121,7 +118,9 @@ Data Interface::query(const ViString & command)  noexcept
             //
             // in case of SOCKET, the status will be VI_SUCCESS_TERM_CHAR
             //
-            _buffer[strlen(_buffer)-1] = '\0'; return std::make_pair(status,std::string(_buffer));
+            auto lf=strchr(_buffer,LINEFEED_CHAR); if (lf) lf[0] = 0;
+
+            return       std::make_pair(status,std::string(_buffer));
         }
     }
     disconnect(); return std::make_pair(VI_ERROR_CONN_LOST,"") ; 

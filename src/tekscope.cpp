@@ -2,6 +2,7 @@
 #include <fstream>
 #include <numeric>
 #include <cstring>
+#include <thread>
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
@@ -115,6 +116,36 @@ std::pair<long, long long> TekScope::getProfilerStat(const std::string & action)
     return std::make_pair(histMap.size(),sum);
 }
 
+
+Status TekScope::wait(std::chrono::milliseconds timeout) noexcept
+{
+    auto beginning = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
+
+    while ( std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()-beginning) < timeout )
+    {
+        auto data = query(const_cast<ViString>("BUSY?"));
+
+        if ( data.first >= VI_SUCCESS )
+        {
+            try 
+            {
+                if ( std::stoi(data.second)  ) 
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
+                else 
+                {
+                    return std::make_pair(data.first,boost::none);
+                }
+            }
+            catch(const std::exception & ex )
+            {
+                return std::make_pair(VI_ERROR_SYSTEM_ERROR,std::string("Query returned string of wrong format: ") + ex.what());
+            }
+        }
+    }
+    return std::make_pair(VI_ERROR_RSRC_BUSY,std::string("The scope is still busy afeter timeout"));
+}
 
 Waveform TekScope::readWaveform()
 {

@@ -1,0 +1,6 @@
+<tekscopeconfig>
+    <connection-string>
+        <instr  name="TCPIP::10.176.62.25::INSTR",     timeout="800" unit="ms"/>
+        <socket name="TCPIP::127.0.0.1::4000::SOCKET", timeout="800" unit="ms"/>
+    </connection-string>
+</tekscopeconfig>

@@ -12,6 +12,13 @@ namespace brildaq
     {
       typedef std::pair<ViStatus,boost::optional<std::map<int, std::vector<float> > > > Waveform;
 
+      struct ChannelConfiguration
+      {
+          uint8_t     ID; /* 1-8 */
+          bool        ONOFF;
+          std::string name;
+      };
+
       class TekScope : public Interface
       {
       public:
@@ -20,6 +27,10 @@ namespace brildaq
         void desableProfiling() { _profilingEnabled = false; }
 
         virtual Waveform readWaveform();
+
+        Status reset();
+
+        Status wait(std::chrono::milliseconds timeout) noexcept;
 
         int dumpProfile(const std::string & action, const std::string & fileName, bool verbose = false, const std::string & delimiter = ", ") const;
 

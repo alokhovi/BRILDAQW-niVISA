@@ -11,6 +11,9 @@ namespace brildaq
 {
     namespace nivisa
     {
+      constexpr ViString toViString(const char * str)        { return const_cast<ViString>(str); }
+
+      constexpr ViString toViString(const std::string & str) { return const_cast<ViString>(str.c_str()); }
 
       constexpr  uint16_t  MAX_FORMATTED_BUFFER_SIZE = 4096;
 
