@@ -22,7 +22,7 @@ int main()
 
   auto & cc = scopeCfg.connectionParameters;
 
-  brildaq::nivisa::Status status = scope.connect(brildaq::nivisa::toViString(cc.connectionString),cc.timeout,cc.exclusiveLock);
+  brildaq::nivisa::Status status = scope.connect(const_cast<ViString>(cc.connectionString.c_str()),cc.timeout,cc.exclusiveLock);
   
   brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
 
