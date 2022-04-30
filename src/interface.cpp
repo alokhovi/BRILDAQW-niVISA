@@ -9,6 +9,11 @@
 
 using namespace brildaq::nivisa;
 
+Interface::Interface() : _buffer(new char [MAX_FORMATTED_BUFFER_SIZE])
+{
+
+}
+
 Status Interface::connect(const ViString & resource, ViAttrState timeout, bool exclusiveLock) noexcept
 {
     assert( !_isConnected );
@@ -39,9 +44,9 @@ Status Interface::connect(const ViString & resource, ViAttrState timeout, bool e
 
     _buffer[0] = VI_NULL;
 
-	status = viGetAttribute(_instrumentSession, VI_ATTR_RSRC_NAME, _buffer);
+	status = viGetAttribute(_instrumentSession, VI_ATTR_RSRC_NAME, _buffer.get());
 
-	if (0 == strcmp(&_buffer[strlen(_buffer) - strlen("SOCKET")], "SOCKET")) 
+	if (0 == strcmp(&_buffer[strlen(_buffer.get()) - strlen("SOCKET")], "SOCKET")) 
     {
         _isSocket = true;
 
@@ -94,33 +99,36 @@ Data Interface::query(const ViString & command)  noexcept
         }
         else
         {
-         assert(lc.length() == read); break;
+         assert(lc.length() == read);
         }
     }
     for( uint16_t nTry=0; nTry < MAX_NUMBER_OF_QUERY_TRIES; nTry++ )
     {
         _buffer[0] = VI_NULL;
 
-        status = viRead(_instrumentSession,(ViBuf)_buffer, MAX_FORMATTED_BUFFER_SIZE, &read);
+        status = viRead(_instrumentSession,(ViBuf)_buffer.get(), MAX_FORMATTED_BUFFER_SIZE, &read);
+
+        assert(read < MAX_FORMATTED_BUFFER_SIZE);
 
         if (status <  VI_SUCCESS) 
         {
             if ( nTry == MAX_NUMBER_OF_QUERY_TRIES-1 )
             {
-                viStatusDesc(_instrumentSession, status, _buffer);
+                viStatusDesc(_instrumentSession, status, _buffer.get());
 
-                return std::make_pair(status,std::string("Reading has failed: ")+_buffer);
+                return std::make_pair(status,std::string("Reading has failed: ")+_buffer.get());
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
         }
+        
         else
         {
             //
             // in case of SOCKET, the status will be VI_SUCCESS_TERM_CHAR
             //
-            auto lf=strchr(_buffer,LINEFEED_CHAR); if (lf) lf[0] = 0;
+            auto lf=strchr(_buffer.get(),LINEFEED_CHAR);  if (lf) lf[0] = 0;
 
-            return       std::make_pair(status,std::string(_buffer));
+            return        std::make_pair(status,std::string(_buffer.get()));
         }
     }
     disconnect(); return std::make_pair(VI_ERROR_CONN_LOST,"") ; 

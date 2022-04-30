@@ -4,6 +4,7 @@
 #include <boost/optional.hpp>
 
 #include <map>
+#include <memory>
 #include <vector>
 #include <visa.h>
   
@@ -11,7 +12,7 @@ namespace brildaq
 {
     namespace nivisa
     {
-      constexpr  uint16_t  MAX_FORMATTED_BUFFER_SIZE = 4096;
+      constexpr  uint32_t  MAX_FORMATTED_BUFFER_SIZE = 268435456; // 256 MB
 
       constexpr  uint16_t  MAX_NUMBER_OF_QUERY_TRIES = 4;
 
@@ -31,9 +32,11 @@ namespace brildaq
         
         ViSession _defaultResourceManager = 0;
 
-        char      _buffer[MAX_FORMATTED_BUFFER_SIZE];
+        std::unique_ptr<char []>      _buffer;
 
       public:
+
+        Interface();
 
         virtual Status   connect(const ViString & resource, ViAttrState timeout, bool exclusiveLock = false) noexcept;
         

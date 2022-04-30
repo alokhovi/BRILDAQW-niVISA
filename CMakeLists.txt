@@ -26,7 +26,7 @@ set(BRILDAQNIVISA_VERSION ${BRILDAQNIVISA_MAJOR_VERSION}.${BRILDAQNIVISA_MINOR_V
 
 message(STATUS "The project version: ${BRILDAQNIVISA_VERSION}")
 
-set(BOOST_ROOT /opt/boost_1_78_0)
+#set(BOOST_ROOT /opt/boost_1_78_0)
 
 project(brildaq_nivisa)
 

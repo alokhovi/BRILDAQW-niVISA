@@ -28,6 +28,8 @@ namespace brildaq
 
         virtual Waveform readWaveform();
 
+        Data Dir(const ViString & directory = nullptr);
+
         Status reset();
 
         Status wait(std::chrono::milliseconds timeout) noexcept;

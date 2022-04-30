@@ -4,13 +4,14 @@
 
 int main()
 {
-  brildaq::nivisa::TekScope    scope;   
+  brildaq::nivisa::TekScope    scope;
 
   brildaq::nivisa::TekScopeCfg scopeCfg;   
 
   // Setting up configuration parameters (to be implemented later via XDAQ interface)
 
-  scopeCfg.connectionParameters.connectionString = "TCPIP::127.0.0.1::4000::SOCKET";
+  // scopeCfg.connectionParameters.connectionString = "TCPIP::127.0.0.1::4000::SOCKET";
+  scopeCfg.connectionParameters.connectionString = "TCPIP::10.176.62.25::4000::SOCKET";
   scopeCfg.connectionParameters.timeout          = 800;
   scopeCfg.connectionParameters.exclusiveLock    = true;
 
@@ -29,6 +30,8 @@ int main()
   std::cout << data.first << " - "  << data.second << std::endl;
 
   std::cout << data.second << std::endl;
+
+  scope.Dir();
 
   scope.disconnect();
 

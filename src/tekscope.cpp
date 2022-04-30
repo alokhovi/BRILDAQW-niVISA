@@ -152,6 +152,18 @@ Waveform TekScope::readWaveform()
     return std::make_pair(VI_SUCCESS,boost::none);
 }
 
+Data TekScope::Dir(const ViString & directory)
+{
+    auto data = query(const_cast<ViString>("FILESystem:CWD?"));
+
+    if ( data.first >= VI_SUCCESS )
+    {
+        std::cout << data.second << std::endl;
+    }
+
+    return std::make_pair(VI_SUCCESS,"");
+}
+
 TekScope::~TekScope()
 {
 
