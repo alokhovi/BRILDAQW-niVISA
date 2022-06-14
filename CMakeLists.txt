@@ -28,6 +28,8 @@ message(STATUS "The project version: ${BRILDAQNIVISA_VERSION}")
 
 #set(BOOST_ROOT /opt/boost_1_78_0)
 
+SET(CMAKE_CXX_FLAGS "-std=c++11 -O3")
+
 project(brildaq_nivisa)
 
 find_package(Boost REQUIRED COMPONENTS unit_test_framework)

@@ -1,0 +1,324 @@
+Start testing: Jan 20 18:36 CET
+----------------------------------------------------------
+1/1 Testing: TEKSCOPE
+1/1 Test: TEKSCOPE
+Command: "/cmsnfshome0/nfshome0/alokhovi/run3/brildaq-nivisa/build/tekscope_devtest"
+Directory: /cmsnfshome0/nfshome0/alokhovi/run3/brildaq-nivisa/build
+"TEKSCOPE" start time: Jan 20 18:36 CET
+Output:
+----------------------------------------------------------
+Running 2 test cases...
+===Loop: i= 0  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+ß,
+===Loop: i= 1  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+ß
+===Loop: i= 2  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+
+===Loop: i= 3  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 4  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 5  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 6  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 7  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 8  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 9  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 10  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 11  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 12  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 13  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 14  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 15  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 16  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 17  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 18  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 19  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 20  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 21  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 22  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 23  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 24  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 25  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 26  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 27  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 28  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 29  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 30  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 31  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 32  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 33  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 34  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 35  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 36  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 37  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 38  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 39  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 40  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 41  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 42  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 43  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 44  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 45  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 46  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 47  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 48  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 49  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 50  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 51  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 52  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 53  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 54  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 55  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 56  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 57  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 58  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 59  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 60  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 61  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 62  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 63  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 64  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 65  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 66  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 67  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 68  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 69  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 70  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 71  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 72  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 73  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 74  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 75  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 76  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 77  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 78  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 79  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 80  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 81  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 82  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 83  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 84  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 85  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 86  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 87  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 88  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 89  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 90  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 91  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 92  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 93  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 94  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 95  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 96  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 97  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 98  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 99  of 100 
+===Stat: 1073676293  TEKTRONIX,MSO58LP,C022675,CF:91.1CT FV:1.26.5.7750
+===Loop: i= 0  of 100 
+===Loop: i= 1  of 100 
+===Loop: i= 2  of 100 
+===Loop: i= 3  of 100 
+===Loop: i= 4  of 100 
+===Loop: i= 5  of 100 
+===Loop: i= 6  of 100 
+===Loop: i= 7  of 100 
+===Loop: i= 8  of 100 
+===Loop: i= 9  of 100 
+===Loop: i= 10  of 100 
+===Loop: i= 11  of 100 
+===Loop: i= 12  of 100 
+===Loop: i= 13  of 100 
+===Loop: i= 14  of 100 
+===Loop: i= 15  of 100 
+===Loop: i= 16  of 100 
+===Loop: i= 17  of 100 
+===Loop: i= 18  of 100 
+===Loop: i= 19  of 100 
+===Loop: i= 20  of 100 
+===Loop: i= 21  of 100 
+===Loop: i= 22  of 100 
+===Loop: i= 23  of 100 
+===Loop: i= 24  of 100 
+===Loop: i= 25  of 100 
+===Loop: i= 26  of 100 
+===Loop: i= 27  of 100 
+===Loop: i= 28  of 100 
+===Loop: i= 29  of 100 
+===Loop: i= 30  of 100 
+===Loop: i= 31  of 100 
+===Loop: i= 32  of 100 
+===Loop: i= 33  of 100 
+===Loop: i= 34  of 100 
+===Loop: i= 35  of 100 
+===Loop: i= 36  of 100 
+===Loop: i= 37  of 100 
+===Loop: i= 38  of 100 
+===Loop: i= 39  of 100 
+===Loop: i= 40  of 100 
+===Loop: i= 41  of 100 
+===Loop: i= 42  of 100 
+===Loop: i= 43  of 100 
+===Loop: i= 44  of 100 
+===Loop: i= 45  of 100 
+===Loop: i= 46  of 100 
+===Loop: i= 47  of 100 
+===Loop: i= 48  of 100 
+===Loop: i= 49  of 100 
+===Loop: i= 50  of 100 
+===Loop: i= 51  of 100 
+===Loop: i= 52  of 100 
+===Loop: i= 53  of 100 
+===Loop: i= 54  of 100 
+===Loop: i= 55  of 100 
+===Loop: i= 56  of 100 
+===Loop: i= 57  of 100 
+===Loop: i= 58  of 100 
+===Loop: i= 59  of 100 
+===Loop: i= 60  of 100 
+===Loop: i= 61  of 100 
+===Loop: i= 62  of 100 
+===Loop: i= 63  of 100 
+===Loop: i= 64  of 100 
+===Loop: i= 65  of 100 
+===Loop: i= 66  of 100 
+===Loop: i= 67  of 100 
+===Loop: i= 68  of 100 
+===Loop: i= 69  of 100 
+===Loop: i= 70  of 100 
+===Loop: i= 71  of 100 
+===Loop: i= 72  of 100 
+===Loop: i= 73  of 100 
+===Loop: i= 74  of 100 
+===Loop: i= 75  of 100 
+===Loop: i= 76  of 100 
+===Loop: i= 77  of 100 
+===Loop: i= 78  of 100 
+===Loop: i= 79  of 100 
+===Loop: i= 80  of 100 
+===Loop: i= 81  of 100 
+===Loop: i= 82  of 100 
+===Loop: i= 83  of 100 
+===Loop: i= 84  of 100 
+===Loop: i= 85  of 100 
+===Loop: i= 86  of 100 
+===Loop: i= 87  of 100 
+===Loop: i= 88  of 100 
+===Loop: i= 89  of 100 
+===Loop: i= 90  of 100 
+===Loop: i= 91  of 100 
+===Loop: i= 92  of 100 
+===Loop: i= 93  of 100 
+===Loop: i= 94  of 100 
+===Loop: i= 95  of 100 
+===Loop: i= 96  of 100 
+===Loop: i= 97  of 100 
+===Loop: i= 98  of 100 
+===Loop: i= 99  of 100 
+
+*** No errors detected
+<end of output>
+Test time =   2.70 sec
+----------------------------------------------------------
+Test Passed.
+"TEKSCOPE" end time: Jan 20 18:36 CET
+"TEKSCOPE" time elapsed: 00:00:02
+----------------------------------------------------------
+
+End testing: Jan 20 18:36 CET
