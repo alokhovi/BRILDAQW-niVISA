@@ -24,14 +24,19 @@ int main()
   auto & cc = scopeCfg.connectionParameters;
 
   brildaq::nivisa::Status status = scope.connect(const_cast<ViString>(cc.connectionString.c_str()),cc.timeout,cc.exclusiveLock);
-  
+
+  if ( status.first != VI_SUCCESS )
+  {
+    std::cout << "Connection failed: " << status.second << std::endl; return -1;
+  }
+
   brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
 
   std::cout << data.first << " - "  << data.second << std::endl;
 
   std::cout << data.second << std::endl;
 
-  scope.Dir();
+  //scope.Dir();
 
   scope.disconnect();
 
