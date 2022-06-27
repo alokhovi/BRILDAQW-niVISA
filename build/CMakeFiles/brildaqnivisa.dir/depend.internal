@@ -4,19 +4,19 @@
 CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o
  ../include/interface.hpp
  ../include/tekscope.hpp
- /nfshome0/alokhovi/run3/brildaq-nivisa/src/interface.cpp
+ /nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp
  /usr/include/ni-visa/visa.h
  /usr/include/ni-visa/visatype.h
 CMakeFiles/brildaqnivisa.dir/src/main.cpp.o
  ../include/interface.hpp
  ../include/tekscope.hpp
  ../include/tekscopecfg.hpp
- /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp
+ /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp
  /usr/include/ni-visa/visa.h
  /usr/include/ni-visa/visatype.h
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o
  ../include/interface.hpp
  ../include/tekscope.hpp
- /nfshome0/alokhovi/run3/brildaq-nivisa/src/tekscope.cpp
+ /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp
  /usr/include/ni-visa/visa.h
  /usr/include/ni-visa/visatype.h

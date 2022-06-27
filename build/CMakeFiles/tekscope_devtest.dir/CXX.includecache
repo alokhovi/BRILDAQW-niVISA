@@ -26,11 +26,11 @@ chrono
 interface.hpp
 ../include/interface.hpp
 
-/nfshome0/alokhovi/run3/brildaq-nivisa/test/tekscope_devtest.cpp
+/nfshome0/jsledgei/brildaq-nivisa/test/tekscope_devtest.cpp
 iostream
 -
 tekscope.hpp
-/nfshome0/alokhovi/run3/brildaq-nivisa/test/tekscope.hpp
+/nfshome0/jsledgei/brildaq-nivisa/test/tekscope.hpp
 optional
 -
 boost/test/unit_test.hpp

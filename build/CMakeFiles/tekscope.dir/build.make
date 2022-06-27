@@ -12,9 +12,6 @@ SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
-# Produce verbose output by default.
-VERBOSE = 1
-
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -41,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa
+CMAKE_SOURCE_DIR = /nfshome0/jsledgei/brildaq-nivisa
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa/build
+CMAKE_BINARY_DIR = /nfshome0/jsledgei/brildaq-nivisa/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tekscope.dir/depend.make
@@ -57,17 +54,17 @@ include CMakeFiles/tekscope.dir/flags.make
 
 CMakeFiles/tekscope.dir/src/main.cpp.o: CMakeFiles/tekscope.dir/flags.make
 CMakeFiles/tekscope.dir/src/main.cpp.o: ../src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tekscope.dir/src/main.cpp.o"
-	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tekscope.dir/src/main.cpp.o -c /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp
+	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tekscope.dir/src/main.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp
 
 CMakeFiles/tekscope.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tekscope.dir/src/main.cpp.i"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp > CMakeFiles/tekscope.dir/src/main.cpp.i
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp > CMakeFiles/tekscope.dir/src/main.cpp.i
 
 CMakeFiles/tekscope.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tekscope.dir/src/main.cpp.s"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp -o CMakeFiles/tekscope.dir/src/main.cpp.s
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp -o CMakeFiles/tekscope.dir/src/main.cpp.s
 
 CMakeFiles/tekscope.dir/src/main.cpp.o.requires:
 .PHONY : CMakeFiles/tekscope.dir/src/main.cpp.o.requires
@@ -106,6 +103,6 @@ CMakeFiles/tekscope.dir/clean:
 .PHONY : CMakeFiles/tekscope.dir/clean
 
 CMakeFiles/tekscope.dir/depend:
-	cd /nfshome0/alokhovi/run3/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles/tekscope.dir/DependInfo.cmake --color=$(COLOR)
+	cd /nfshome0/jsledgei/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/tekscope.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tekscope.dir/depend
 

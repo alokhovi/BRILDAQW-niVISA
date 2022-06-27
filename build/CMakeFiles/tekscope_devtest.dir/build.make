@@ -12,9 +12,6 @@ SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
-# Produce verbose output by default.
-VERBOSE = 1
-
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -41,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa
+CMAKE_SOURCE_DIR = /nfshome0/jsledgei/brildaq-nivisa
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa/build
+CMAKE_BINARY_DIR = /nfshome0/jsledgei/brildaq-nivisa/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tekscope_devtest.dir/depend.make
@@ -57,17 +54,17 @@ include CMakeFiles/tekscope_devtest.dir/flags.make
 
 CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o: CMakeFiles/tekscope_devtest.dir/flags.make
 CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o: ../test/tekscope_devtest.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o"
-	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o -c /nfshome0/alokhovi/run3/brildaq-nivisa/test/tekscope_devtest.cpp
+	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/test/tekscope_devtest.cpp
 
 CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.i"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/alokhovi/run3/brildaq-nivisa/test/tekscope_devtest.cpp > CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.i
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/test/tekscope_devtest.cpp > CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.i
 
 CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.s"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/alokhovi/run3/brildaq-nivisa/test/tekscope_devtest.cpp -o CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.s
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/test/tekscope_devtest.cpp -o CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.s
 
 CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o.requires:
 .PHONY : CMakeFiles/tekscope_devtest.dir/test/tekscope_devtest.cpp.o.requires
@@ -106,6 +103,6 @@ CMakeFiles/tekscope_devtest.dir/clean:
 .PHONY : CMakeFiles/tekscope_devtest.dir/clean
 
 CMakeFiles/tekscope_devtest.dir/depend:
-	cd /nfshome0/alokhovi/run3/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles/tekscope_devtest.dir/DependInfo.cmake --color=$(COLOR)
+	cd /nfshome0/jsledgei/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/tekscope_devtest.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tekscope_devtest.dir/depend
 

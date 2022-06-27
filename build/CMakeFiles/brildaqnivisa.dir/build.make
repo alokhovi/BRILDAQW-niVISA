@@ -12,9 +12,6 @@ SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
-# Produce verbose output by default.
-VERBOSE = 1
-
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -41,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa
+CMAKE_SOURCE_DIR = /nfshome0/jsledgei/brildaq-nivisa
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa/build
+CMAKE_BINARY_DIR = /nfshome0/jsledgei/brildaq-nivisa/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/brildaqnivisa.dir/depend.make
@@ -57,17 +54,17 @@ include CMakeFiles/brildaqnivisa.dir/flags.make
 
 CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o: CMakeFiles/brildaqnivisa.dir/flags.make
 CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o: ../src/interface.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o"
-	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o -c /nfshome0/alokhovi/run3/brildaq-nivisa/src/interface.cpp
+	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp
 
 CMakeFiles/brildaqnivisa.dir/src/interface.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brildaqnivisa.dir/src/interface.cpp.i"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/alokhovi/run3/brildaq-nivisa/src/interface.cpp > CMakeFiles/brildaqnivisa.dir/src/interface.cpp.i
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp > CMakeFiles/brildaqnivisa.dir/src/interface.cpp.i
 
 CMakeFiles/brildaqnivisa.dir/src/interface.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brildaqnivisa.dir/src/interface.cpp.s"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/alokhovi/run3/brildaq-nivisa/src/interface.cpp -o CMakeFiles/brildaqnivisa.dir/src/interface.cpp.s
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp -o CMakeFiles/brildaqnivisa.dir/src/interface.cpp.s
 
 CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o.requires:
 .PHONY : CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o.requires
@@ -80,17 +77,17 @@ CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o.provides.build: CMakeFiles/bril
 
 CMakeFiles/brildaqnivisa.dir/src/main.cpp.o: CMakeFiles/brildaqnivisa.dir/flags.make
 CMakeFiles/brildaqnivisa.dir/src/main.cpp.o: ../src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/brildaqnivisa.dir/src/main.cpp.o"
-	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/main.cpp.o -c /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp
+	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/main.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp
 
 CMakeFiles/brildaqnivisa.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brildaqnivisa.dir/src/main.cpp.i"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp > CMakeFiles/brildaqnivisa.dir/src/main.cpp.i
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp > CMakeFiles/brildaqnivisa.dir/src/main.cpp.i
 
 CMakeFiles/brildaqnivisa.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brildaqnivisa.dir/src/main.cpp.s"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp -o CMakeFiles/brildaqnivisa.dir/src/main.cpp.s
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp -o CMakeFiles/brildaqnivisa.dir/src/main.cpp.s
 
 CMakeFiles/brildaqnivisa.dir/src/main.cpp.o.requires:
 .PHONY : CMakeFiles/brildaqnivisa.dir/src/main.cpp.o.requires
@@ -103,17 +100,17 @@ CMakeFiles/brildaqnivisa.dir/src/main.cpp.o.provides.build: CMakeFiles/brildaqni
 
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o: CMakeFiles/brildaqnivisa.dir/flags.make
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o: ../src/tekscope.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o"
-	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o -c /nfshome0/alokhovi/run3/brildaq-nivisa/src/tekscope.cpp
+	/opt/rh/devtoolset-8/root/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp
 
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.i"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/alokhovi/run3/brildaq-nivisa/src/tekscope.cpp > CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.i
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp > CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.i
 
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.s"
-	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/alokhovi/run3/brildaq-nivisa/src/tekscope.cpp -o CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.s
+	/opt/rh/devtoolset-8/root/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp -o CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.s
 
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o.requires:
 .PHONY : CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o.requires
@@ -156,6 +153,6 @@ CMakeFiles/brildaqnivisa.dir/clean:
 .PHONY : CMakeFiles/brildaqnivisa.dir/clean
 
 CMakeFiles/brildaqnivisa.dir/depend:
-	cd /nfshome0/alokhovi/run3/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/DependInfo.cmake --color=$(COLOR)
+	cd /nfshome0/jsledgei/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/brildaqnivisa.dir/depend
 

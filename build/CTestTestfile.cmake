@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: /nfshome0/alokhovi/run3/brildaq-nivisa
-# Build directory: /nfshome0/alokhovi/run3/brildaq-nivisa/build
+# Source directory: /nfshome0/jsledgei/brildaq-nivisa
+# Build directory: /nfshome0/jsledgei/brildaq-nivisa/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

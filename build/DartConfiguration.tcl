@@ -4,8 +4,8 @@
 
 
 # Configuration directories and files
-SourceDirectory: /nfshome0/alokhovi/run3/brildaq-nivisa
-BuildDirectory: /nfshome0/alokhovi/run3/brildaq-nivisa/build
+SourceDirectory: /nfshome0/jsledgei/brildaq-nivisa
+BuildDirectory: /nfshome0/jsledgei/brildaq-nivisa/build
 
 # Where to place the cost data store
 CostDataFile: 
@@ -33,7 +33,7 @@ ScpCommand: /usr/bin/scp
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/nfshome0/alokhovi/run3/brildaq-nivisa"
+ConfigureCommand: "/usr/bin/cmake" "/nfshome0/jsledgei/brildaq-nivisa"
 MakeCommand: /opt/rh/devtoolset-8/root/usr/bin/gmake -i
 DefaultCTestConfigurationType: Release
 

@@ -1,4 +1,4 @@
-set(CMAKE_C_COMPILER "/opt/rh/devtoolset-8/root/usr/bin/x86_64-redhat-linux-gcc-8")
+set(CMAKE_C_COMPILER "/opt/rh/devtoolset-8/root/usr/bin/cc")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_COMPILER_VERSION "8.2.1")

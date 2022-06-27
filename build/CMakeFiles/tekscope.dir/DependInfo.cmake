@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp" "/nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles/tekscope.dir/src/main.cpp.o"
+  "/nfshome0/jsledgei/brildaq-nivisa/src/main.cpp" "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/tekscope.dir/src/main.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,7 +15,7 @@ SET(CMAKE_TARGET_DEFINITIONS
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
-  "/nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/DependInfo.cmake"
+  "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/DependInfo.cmake"
   )
 
 # The include file search paths:

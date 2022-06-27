@@ -12,9 +12,6 @@ SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
-# Produce verbose output by default.
-VERBOSE = 1
-
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -41,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa
+CMAKE_SOURCE_DIR = /nfshome0/jsledgei/brildaq-nivisa
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /nfshome0/alokhovi/run3/brildaq-nivisa/build
+CMAKE_BINARY_DIR = /nfshome0/jsledgei/brildaq-nivisa/build
 
 # Utility rule file for NightlyBuild.
 
@@ -67,6 +64,6 @@ CMakeFiles/NightlyBuild.dir/clean:
 .PHONY : CMakeFiles/NightlyBuild.dir/clean
 
 CMakeFiles/NightlyBuild.dir/depend:
-	cd /nfshome0/alokhovi/run3/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build /nfshome0/alokhovi/run3/brildaq-nivisa/build/CMakeFiles/NightlyBuild.dir/DependInfo.cmake --color=$(COLOR)
+	cd /nfshome0/jsledgei/brildaq-nivisa/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/NightlyBuild.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/NightlyBuild.dir/depend
 

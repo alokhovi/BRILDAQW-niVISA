@@ -38,13 +38,13 @@ vector
 visa.h
 -
 
-/nfshome0/alokhovi/run3/brildaq-nivisa/src/main.cpp
+/nfshome0/jsledgei/brildaq-nivisa/src/main.cpp
 iostream
 -
 tekscope.hpp
-/nfshome0/alokhovi/run3/brildaq-nivisa/src/tekscope.hpp
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
 tekscopecfg.hpp
-/nfshome0/alokhovi/run3/brildaq-nivisa/src/tekscopecfg.hpp
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.hpp
 
 /usr/include/ni-visa/visa.h
 stdarg.h
