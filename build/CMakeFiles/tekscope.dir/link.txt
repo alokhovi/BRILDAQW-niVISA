@@ -1,1 +1,0 @@
-/opt/rh/devtoolset-8/root/usr/bin/c++       CMakeFiles/tekscope.dir/src/main.cpp.o  -o tekscope -rdynamic libbrildaqnivisa.a -lboost_unit_test_framework-mt /usr/lib/x86_64-linux-gnu/libvisa.so -Wl,-rpath,/usr/lib/x86_64-linux-gnu 
