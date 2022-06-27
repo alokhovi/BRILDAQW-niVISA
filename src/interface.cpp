@@ -168,3 +168,51 @@ Status Interface::write(const ViString & command)  noexcept
     }
     disconnect(); return std::make_pair(VI_ERROR_CONN_LOST,boost::none) ; 
 }
+
+std::string Interface::resetScope()
+{
+    return this->query(const_cast<ViString>("*RST;:*OPC?")).second;
+}
+
+std::string Interface::baseConfig()
+{
+    brildaq::nivisa::Data       data;
+    data = this->query( const_cast<ViString>("*RST;:*OPC?") );
+    std::cout << "RESETTING SCOPE: " << data.second << std::endl;
+    
+    data = this->query( const_cast<ViString>("DISPLAY:WAVEVIEW1:CH8:STATE 1;:*OPC?") );
+    std::cout << "OPENING CH8: " << data.second << std::endl;
+    
+    data = this->query( const_cast<ViString>("DISplay:WAVEView1:CH8:VERTical:SCAle 0.5;:*OPC?") );
+    std::cout << "SETTING CH8 SCALE: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>("HORizontal:SCAle 100e-9;:*OPC?") );
+    std::cout << "SETTING HORIZONTAL SCALE: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:A:TYPe EDGE;:*OPC?") );
+    std::cout << "SETTING EDGE TRIGGER: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:A:EDGE:SOUrce CH8;:*OPC?") );
+    std::cout << "SETTING EDGE SOURCE CH8: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:A:LOWerthreshold:CH8 -1.2;:*OPC?") );
+    data = this->query( const_cast<ViString>(":TRIGger:A SETLevel;:*OPC?") );
+    std::cout << "SETTING TRIGGER THRESHOLD: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:A:EDGE:SLOpe FALL;:*OPC?") );
+    std::cout << "SETTING EDGE TYPE: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:STATE?;:*OPC?") );
+    std::cout << "REQUESTING TRIGGER STATE: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>("DISPLAY:WAVEVIEW1:CH2:STATE 1;:*OPC?") );
+    std::cout << "OPENING CH2: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:A:EDGE:SOUrce CH2;:*OPC?") );
+    std::cout << "SETTING EDGE SOURCE CH2: " << data.second << std::endl;
+
+    data = this->query( const_cast<ViString>(":TRIGger:A SETLevel;:*OPC?") );
+    std::cout << "SETTING TRIGGER THRESHOLD: " << data.second << std::endl;
+
+    return data.second;
+}

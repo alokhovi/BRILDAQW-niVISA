@@ -52,6 +52,12 @@ namespace brildaq
 
         ViSession getDefaultRM() const { return _defaultResourceManager; }
 
+        //int reset();
+        
+        std::string baseConfig();
+
+        std::string resetScope();
+
       protected:
 
         ViSession _instrumentSession      = 0;
