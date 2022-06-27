@@ -99,9 +99,10 @@ Data Interface::query(const ViString & command)  noexcept
         }
         else
         {
-         assert(lc.length() == read);
+            assert(lc.length() == read); break;
         }
     }
+
     for( uint16_t nTry=0; nTry < MAX_NUMBER_OF_QUERY_TRIES; nTry++ )
     {
         _buffer[0] = VI_NULL;
@@ -118,9 +119,8 @@ Data Interface::query(const ViString & command)  noexcept
 
                 return std::make_pair(status,std::string("Reading has failed: ")+_buffer.get());
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
-        
         else
         {
             //
