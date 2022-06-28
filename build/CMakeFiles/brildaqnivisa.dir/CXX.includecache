@@ -26,17 +26,17 @@ chrono
 interface.hpp
 ../include/interface.hpp
 
-/nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp
 iostream
+-
+fstream
+-
+numeric
 -
 cstring
 -
-chrono
--
 thread
 -
-interface.hpp
-/nfshome0/jsledgei/brildaq-nivisa/src/interface.hpp
 tekscope.hpp
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
 

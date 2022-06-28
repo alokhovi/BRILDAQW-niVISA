@@ -168,3 +168,86 @@ TekScope::~TekScope()
 {
 
 }
+
+/*
+The following methods all send commands or queries to the scope for their given task
+they return the relevant datatype
+*/
+
+Data TekScope::resetScope()
+{
+    return this->query(const_cast<ViString>("*RST;:*OPC?"));
+}
+
+Status TekScope::channelState(std::string channel, std::string state)
+{
+    std::string command = "DISPLAY:WAVEVIEW1:CH" + channel + ":STATE " + state;
+    return this->write( const_cast<ViString>(command.c_str()) );
+}
+
+Status TekScope::verticalScale(std::string channel, std::string voltsPerDivision)
+{
+    std::string command = "DISplay:WAVEView1:CH" + channel + ":VERTical:SCAle " + voltsPerDivision;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::timeScale(std::string secsPerDivision)
+{
+    std::string command = "HORizontal:SCAle " + secsPerDivision;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::triggerType(std::string type)
+{
+    std::string command = ":TRIGger:A:TYPe " + type;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::triggerSource(std::string channel)
+{
+    std::string command = ":TRIGger:A:EDGE:SOUrce CH" + channel;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::triggerSlopeType(std::string type)
+{
+    std::string command = ":TRIGger:A:EDGE:SLOpe " + type;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::setHalfTrigger()
+{
+    return this->write( const_cast<ViString>(":TRIGger:A SETLevel") );
+}
+
+Status TekScope::setTriggerLevel(std::string channel, std::string voltageLevel)
+{
+    std::string command = ":TRIGger:A:LEVEL:CH" + channel + " " + voltageLevel;
+    return this->write( const_cast<ViString>(command.c_str()) );
+}
+
+Data TekScope::checkReady()
+{
+    return this->query( const_cast<ViString>("*OPC?") );
+}
+
+Status TekScope::baseConfig(ChannelConfiguration channelConfigurationParameters[])
+{
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+
+    data = this->resetScope();//reset the scope
+    status = this->channelState("7","1");
+    
+    status = this->channelState("8","1");
+    status = this->verticalScale("8","0.5");
+    status = this->timeScale("100e-9");
+    status = this->triggerType("EDGE");
+    status = this->triggerSource("8");
+    status = this->triggerSlopeType("FALL");
+    status = this->setTriggerLevel("8","-1.0");
+    data = this->checkReady();
+    
+
+    return status;
+}
