@@ -27,7 +27,8 @@ namespace brildaq
 
             ChannelConfiguration channelConfigurationParameters[NM_OF_TEKSCOPE_CHANNELS] = 
             {
-                {1,false,"BPTX1"},{2,false,"BPTX2"},{3,false},{4,false},{5,false},{6,false},{7,false},{8,false}
+                {1,false,"BPTX1"},{2,false,"BPTX2"},{3,false,"ORBIT1"},{4,false,"ORBIT2"},{5,false,"BUNCH1"},
+                {6,false,"BUNCH2"},{7,false,"BUNCHMAIN"},{8,false,"ORBITMAIN"}
             };
         };
     }

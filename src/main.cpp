@@ -19,6 +19,7 @@ int main()
   scope.enableProfiling();
 
   scope.startProfiler("devtest"); 
+  std::cout << scopeCfg.channelConfigurationParameters[0].name << std::endl;
 
   
   //brildaq::nivisa::Status status = scope.connect(ViString("TCPIP::10.176.62.25::4000::SOCKET"),800 /* ms */);
