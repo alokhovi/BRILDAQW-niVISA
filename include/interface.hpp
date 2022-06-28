@@ -18,6 +18,8 @@ namespace brildaq
 
       constexpr  uint8_t   LINEFEED_CHAR             = '\n';
 
+      const auto NM_OF_TEKSCOPE_CHANNELS = 8;
+
       using Status = std::pair<ViStatus,boost::optional<std::string> >;
 
       using Data   = std::pair<ViStatus,std::string>;

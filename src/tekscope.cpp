@@ -2,6 +2,7 @@
 #include <fstream>
 #include <numeric>
 #include <cstring>
+#include <string>
 #include <thread>
 
 #include "tekscope.hpp"
@@ -231,23 +232,30 @@ Data TekScope::checkReady()
     return this->query( const_cast<ViString>("*OPC?") );
 }
 
-Status TekScope::baseConfig(ChannelConfiguration channelConfigurationParameters[])
+Status TekScope::baseConfig(GlobalConfigurationParams globalParams, ChannelConfiguration channelConfigurationParameters[])
 {
     brildaq::nivisa::Status status;
     brildaq::nivisa::Data   data;
 
     data = this->resetScope();//reset the scope
-    status = this->channelState("7","1");
-    
-    status = this->channelState("8","1");
-    status = this->verticalScale("8","0.5");
-    status = this->timeScale("100e-9");
-    status = this->triggerType("EDGE");
-    status = this->triggerSource("8");
-    status = this->triggerSlopeType("FALL");
-    status = this->setTriggerLevel("8","-1.0");
-    data = this->checkReady();
-    
 
-    return status;
+    for(int i = 0; i < NM_OF_TEKSCOPE_CHANNELS; i++){
+        if(channelConfigurationParameters[i].ONOFF){
+            std::string channel = std::to_string(channelConfigurationParameters[i].ID); //get the channel# from the ID
+            status = this->channelState(channel,"1");
+            status = this->verticalScale(channel,channelConfigurationParameters[i].VSCALE);
+        }
+        else if(i==0 && !channelConfigurationParameters[i].ONOFF){//turn off the first channel if needed
+            status = this->channelState(std::to_string(channelConfigurationParameters[i].ID),"0");
+        }
+    }
+
+    status = this->timeScale(globalParams.TSCALE);
+    status = this->triggerType(globalParams.TRIGTYPE);
+    status = this->triggerSource(globalParams.TRIGSOURCE[0]);
+    status = this->triggerSlopeType(globalParams.SLOPETYPE);
+    status = this->setTriggerLevel(globalParams.TRIGSOURCE[0],globalParams.TRIGSOURCE[1]);
+    data = this->checkReady();
+
+    return status; /*this is a bad return value*/
 }

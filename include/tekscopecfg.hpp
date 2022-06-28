@@ -13,8 +13,6 @@ namespace brildaq
 {
     namespace nivisa
     {
-        const auto NM_OF_TEKSCOPE_CHANNELS = 8;
-
         struct TekScopeCfg
         {
             struct ConnectionParameters
@@ -27,9 +25,11 @@ namespace brildaq
 
             ChannelConfiguration channelConfigurationParameters[NM_OF_TEKSCOPE_CHANNELS] = 
             {
-                {1,false,"BPTX1"},{2,false,"BPTX2"},{3,false,"ORBIT1"},{4,false,"ORBIT2"},{5,false,"BUNCH1"},
-                {6,false,"BUNCH2"},{7,false,"BUNCHMAIN"},{8,false,"ORBITMAIN"}
+                {1,false,"1","BPTX1"},{2,false,"1","BPTX2"},{3,false,"1","ORBIT1"},{4,false,"1","ORBIT2"},{5,false,"1","BUNCH1"},
+                {6,false,"1","BUNCH2"},{7,false,"1","BUNCHMAIN"},{8,false,"1","ORBITMAIN"}
             };
+
+            GlobalConfigurationParams globalParams;
         };
     }
 }

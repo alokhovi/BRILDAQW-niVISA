@@ -26,6 +26,28 @@ chrono
 interface.hpp
 ../include/interface.hpp
 
+../include/tekscopecfg.hpp
+boost/optional.hpp
+-
+tekscope.hpp
+../include/tekscope.hpp
+map
+-
+vector
+-
+visa.h
+-
+
+/nfshome0/jsledgei/brildaq-nivisa/src/main.cpp
+iostream
+-
+string
+-
+tekscope.hpp
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
+tekscopecfg.hpp
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.hpp
+
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp
 iostream
 -
@@ -34,6 +56,8 @@ fstream
 numeric
 -
 cstring
+-
+string
 -
 thread
 -

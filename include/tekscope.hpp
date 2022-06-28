@@ -16,7 +16,17 @@ namespace brildaq
       {
           uint8_t     ID; /* 1-8 */
           bool        ONOFF;
+          std::string VSCALE;
           std::string name;
+      };
+
+      struct GlobalConfigurationParams
+      {
+          std::string TSCALE = "1"; //time scale in secs/division
+          std::string TRIGTYPE = "EDGE"; //trigger type
+          std::string SLOPETYPE = "FALL"; //slope fall type
+          std::string TRIGSOURCE[2] = {"8","-1"}; //default trigger source on ORBITMAIN
+
       };
 
       class TekScope : public Interface
@@ -60,7 +70,8 @@ namespace brildaq
         
         virtual Data checkReady();
 
-        virtual Status baseConfig(ChannelConfiguration channelConfigurationParameters[]); //setup the scope to the base configuration parameters
+        virtual Status baseConfig(GlobalConfigurationParams globalParams, ChannelConfiguration channelConfigurationParameters[]); 
+        //setup the scope to the base configuration parameters
 
       public:
 
