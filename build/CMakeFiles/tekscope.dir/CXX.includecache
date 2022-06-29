@@ -53,12 +53,6 @@ tekscope.hpp
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
 tekscopecfg.hpp
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.hpp
-stdio.h
--
-stdlib.h
--
-ni-visa/visa.h
--
 
 /usr/include/ni-visa/visa.h
 stdarg.h
