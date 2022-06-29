@@ -17,6 +17,10 @@ vector
 -
 visa.h
 -
+stdio.h
+-
+stdlib.h
+-
 
 ../include/tekscope.hpp
 map

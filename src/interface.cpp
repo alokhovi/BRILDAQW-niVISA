@@ -168,3 +168,4 @@ Status Interface::write(const ViString & command)  noexcept
     }
     disconnect(); return std::make_pair(VI_ERROR_CONN_LOST,boost::none) ; 
 }
+

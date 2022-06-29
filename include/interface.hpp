@@ -7,6 +7,9 @@
 #include <memory>
 #include <vector>
 #include <visa.h>
+
+#include <stdio.h>
+#include <stdlib.h>
   
 namespace brildaq
 {

@@ -4,6 +4,7 @@
 #include <cstring>
 #include <string>
 #include <thread>
+#include <bitset>
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
@@ -177,7 +178,21 @@ they return the relevant datatype
 
 Data TekScope::resetScope()
 {
-    return this->query(const_cast<ViString>("*RST;:*OPC?"));
+    brildaq::nivisa::Data data = this->query(const_cast<ViString>("*RST;:*OPC?"));
+    this->terminateChannels();
+    return data;
+}
+
+Status TekScope::terminateChannels()
+{
+    std::string command;
+    brildaq::nivisa::Status status;
+    for(int i = 0; i < NM_OF_TEKSCOPE_CHANNELS; i++)//ensure 50OHM termination for all scopes
+    {
+        command = "CH" + std::to_string(i+1) + ":TERMINATION 50";
+        status = this->write(const_cast<ViString>(command.c_str()));
+    }
+    return status;
 }
 
 Status TekScope::channelState(std::string channel, std::string state)
@@ -258,4 +273,30 @@ Status TekScope::baseConfig(GlobalConfigurationParams globalParams, ChannelConfi
     data = this->checkReady();
 
     return status; /*this is a bad return value*/
+}
+
+Status TekScope::binIn()
+{
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+
+    this->write(const_cast<ViString>("SELECT:CH1 ON"));
+    data = this->query(const_cast<ViString>(":DATa:SOUrce:AVAILable?"));
+    std::cout << "Data Source Available: " << data.second << std::endl;
+    this->write(const_cast<ViString>(":DATa:SOUrce CH1"));
+    this->write(const_cast<ViString>(":DATa:START 1"));
+    this->write(const_cast<ViString>(":DATa:STOP 2500"));
+    this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY"));
+    this->write(const_cast<ViString>(":WFMOutpre:BYT_Nr 1"));
+    this->write(const_cast<ViString>(":HEADer 1"));
+    this->write(const_cast<ViString>(":VERBOSE 1"));
+    data = this->query(const_cast<ViString>(":WFMOutpre?"));
+    std::cout << data.second << std::endl;
+    data = this->query(const_cast<ViString>(":CURVE?"));
+    std::cout << data.second << std::endl;
+    for(std::size_t i=0; i<data.second.size(); i++){
+        std::cout << std::bitset<8>(data.second[i]) << std::endl;
+    }
+    return status;
+
 }

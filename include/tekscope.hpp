@@ -15,9 +15,9 @@ namespace brildaq
       struct ChannelConfiguration
       {
           uint8_t     ID; /* 1-8 */
-          bool        ONOFF;
-          std::string VSCALE;
-          std::string name;
+          bool        ONOFF; //select channel on off
+          std::string VSCALE; //set vertical scale of channel
+          std::string name; //name of channel
       };
 
       struct GlobalConfigurationParams
@@ -51,6 +51,8 @@ namespace brildaq
         virtual ~TekScope();
 
         virtual Data resetScope();//reset the scope to blank settings
+        
+        virtual Status terminateChannels(); //set 50 OHM terminations on all of the channels 
 
         virtual Status channelState(std::string channel, std::string state);//turn on="1" or off="0" a channel 
 
@@ -68,10 +70,12 @@ namespace brildaq
 
         virtual Status setTriggerLevel(std::string channel, std::string voltageLevel); //set trigger voltage cutoff "LOW" or "UPP"
         
-        virtual Data checkReady();
+        virtual Data checkReady(); //wait for scope to finish all past commands
 
         virtual Status baseConfig(GlobalConfigurationParams globalParams, ChannelConfiguration channelConfigurationParameters[]); 
         //setup the scope to the base configuration parameters
+
+        virtual Status binIn();
 
       public:
 
