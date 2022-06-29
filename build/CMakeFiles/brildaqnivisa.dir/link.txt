@@ -1,2 +1,0 @@
-/opt/rh/devtoolset-8/root/usr/bin/ar cr libbrildaqnivisa.a  CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o CMakeFiles/brildaqnivisa.dir/src/main.cpp.o CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o
-/opt/rh/devtoolset-8/root/usr/bin/ranlib libbrildaqnivisa.a
