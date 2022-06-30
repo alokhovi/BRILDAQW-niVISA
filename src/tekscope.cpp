@@ -293,7 +293,8 @@ std::string TekScope::binIn()
     viSetAttribute (vi, VI_ATTR_TMO_VALUE,100);*/
 
     //this->write(const_cast<ViString>("SELECT:CH1 ON"));
-    this->write(const_cast<ViString>("SELECT:CH4 ON"));
+    //this->write(const_cast<ViString>("SELECT:CH4 ON"));
+    this->channelState("4","1");
     data = this->query(const_cast<ViString>(":DATa:SOUrce:AVAILable?"));
     std::cout << "Data Source Available: " << data.second << std::endl;
     this->write(const_cast<ViString>(":DATa:SOUrce CH4"));
@@ -344,4 +345,33 @@ std::string TekScope::binIn()
 
     return temp;
 
+}
+
+std::string TekScope::getForm(std::string channel, std::string byteNum, std::string start, std::string stop)
+{
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+    std::string command;
+
+    command = "SELECT:CH" + channel + " ON"; //turn on channel
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:SOUrce CH" + channel; //turn on channel
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:START " + start; //set start point for data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:STOP " + stop; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY")); //set binary encoding format
+    this->write(const_cast<ViString>(":HEADer 0")); //turn off headers
+
+    command = ":WFMOutpre:BYT_Nr " + byteNum; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    data = this->query(":CURVE?");
+    std::string form = data.second;
+    return form;
 }

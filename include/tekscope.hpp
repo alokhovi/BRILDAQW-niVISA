@@ -77,6 +77,8 @@ namespace brildaq
 
         virtual std::string binIn();
 
+        virtual std::string getForm(std::string channel, std::string byteNum, std::string start, std::string stop);
+
       public:
 
         // Histograming of the scope readout time
