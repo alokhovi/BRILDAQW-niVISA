@@ -8,6 +8,7 @@
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
+//#define MAX_CNT1 1000
 
 void TekScope::startProfiler(const std::string & action)
 {
@@ -149,11 +150,6 @@ Status TekScope::wait(std::chrono::milliseconds timeout) noexcept
     return std::make_pair(VI_ERROR_RSRC_BUSY,std::string("The scope is still busy afeter timeout"));
 }
 
-Waveform TekScope::readWaveform()
-{
-    return std::make_pair(VI_SUCCESS,boost::none);
-}
-
 Data TekScope::Dir(const ViString & directory)
 {
     auto data = query(const_cast<ViString>("FILESystem:CWD?"));
@@ -164,6 +160,11 @@ Data TekScope::Dir(const ViString & directory)
     }
 
     return std::make_pair(VI_SUCCESS,"");
+}
+
+Waveform TekScope::readWaveform()
+{
+    return std::make_pair(VI_SUCCESS,boost::none);
 }
 
 TekScope::~TekScope()
@@ -275,28 +276,72 @@ Status TekScope::baseConfig(GlobalConfigurationParams globalParams, ChannelConfi
     return status; /*this is a bad return value*/
 }
 
-Status TekScope::binIn()
+std::string TekScope::binIn()
 {
     brildaq::nivisa::Status status;
     brildaq::nivisa::Data   data;
+    /*
+    static unsigned char  strres [6263];
+    static ViStatus stat;
+    static ViSession defaultRM, vi;
+    static ViUInt32 retCount;
+    static ViUInt32 actual;
 
-    this->write(const_cast<ViString>("SELECT:CH1 ON"));
+    viOpenDefaultRM(&defaultRM);
+    viSetAttribute (defaultRM, VI_ATTR_TMO_VALUE,1600);
+    viOpen(defaultRM,"TCPIP::10.176.62.25::INSTR",VI_NULL,VI_NULL,&vi);
+    viSetAttribute (vi, VI_ATTR_TMO_VALUE,100);*/
+
+    //this->write(const_cast<ViString>("SELECT:CH1 ON"));
+    this->write(const_cast<ViString>("SELECT:CH4 ON"));
     data = this->query(const_cast<ViString>(":DATa:SOUrce:AVAILable?"));
     std::cout << "Data Source Available: " << data.second << std::endl;
-    this->write(const_cast<ViString>(":DATa:SOUrce CH1"));
+    this->write(const_cast<ViString>(":DATa:SOUrce CH4"));
+
+    //this->timeScale("0.5");
+    data = this->query(const_cast<ViString>(":HORizontal:MODE?"));
+    std::cout << "HORIZ MODE: " << data.second << std::endl;
+    data = this->query(const_cast<ViString>(":HORizontal:RECOrdlength?"));
+    std::cout << "HORIZ MODE LENGTH: " << data.second << std::endl;
+
     this->write(const_cast<ViString>(":DATa:START 1"));
-    this->write(const_cast<ViString>(":DATa:STOP 2500"));
+    //this->write(const_cast<ViString>(":DATa:STOP 6250"));
+    this->write(const_cast<ViString>(":DATa:STOP 1250"));
     this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY"));
     this->write(const_cast<ViString>(":WFMOutpre:BYT_Nr 1"));
+    //data = this->query(const_cast<ViString>("WFMOutpre:BIT_Nr?"));
+    //std::cout << "BITS: " << data.second << std::endl;
     this->write(const_cast<ViString>(":HEADer 1"));
     this->write(const_cast<ViString>(":VERBOSE 1"));
     data = this->query(const_cast<ViString>(":WFMOutpre?"));
     std::cout << data.second << std::endl;
-    data = this->query(const_cast<ViString>(":CURVE?"));
-    std::cout << data.second << std::endl;
-    for(std::size_t i=0; i<data.second.size(); i++){
-        std::cout << std::bitset<8>(data.second[i]) << std::endl;
+
+    
+    //viWrite(vi, (ViBuf)":CURVE?",8, &actual);
+    //viRead(vi,strres, 7000,  &retCount);
+    //printf("%s\n ", strres);
+    
+
+    /*for(int i=14;i<6250;i++){
+      if((int)strres[i] != 0 && (int)strres[i] != 1 && (int)strres[i] != 255){
+        std::cout << std::bitset<8>(strres[i]) << " ------ " << (int)strres[i] << " ------ " << i << std::endl;
+        }
+      //std::cout << (int)strres[i] << std::endl;
+    }*/
+
+    data = this->query(":CURVE?");
+    std::string temp = data.second;
+    //std::cout << data.second[0] << std::endl;
+    for(int i=14;i<1250;i++){
+      /*if((int)temp[i] != 0 && (int)temp[i] != 1 && (int)temp[i] != 255){
+        std::cout << std::bitset<8>(temp[i]) << " ------ " << (int)temp[i] << " ------ " << i << std::endl;
+        }*/
+      std::cout << (int)temp[i] << std::endl;
     }
-    return status;
+
+    //std::string temp = std::string(strres);
+    //std::cout << temp << std::endl;
+
+    return temp;
 
 }

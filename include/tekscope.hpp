@@ -75,7 +75,7 @@ namespace brildaq
         virtual Status baseConfig(GlobalConfigurationParams globalParams, ChannelConfiguration channelConfigurationParameters[]); 
         //setup the scope to the base configuration parameters
 
-        virtual Status binIn();
+        virtual std::string binIn();
 
       public:
 

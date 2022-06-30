@@ -5,7 +5,7 @@
 #include "tekscope.hpp"
 #include "tekscopecfg.hpp"
 
-/*
+
 int main()
 {
   brildaq::nivisa::TekScope    scope;
@@ -20,16 +20,18 @@ int main()
   scopeCfg.connectionParameters.exclusiveLock    = true;
 
   scopeCfg.channelConfigurationParameters[1].ONOFF = true;//turn on channel 2
-  scopeCfg.channelConfigurationParameters[2].ONOFF = true;//turn on channel 3
+  scopeCfg.channelConfigurationParameters[3].ONOFF = true;//turn on channel 4
   scopeCfg.channelConfigurationParameters[7].ONOFF = true;//turn on channel 8
   scopeCfg.channelConfigurationParameters[1].VSCALE = "0.25";//set ch2 vertical scale
   scopeCfg.channelConfigurationParameters[7].VSCALE = "0.25";//set ch8 vertical scale
+  scopeCfg.channelConfigurationParameters[3].VSCALE = "0.5";//set ch8 vertical scale
 
   //scopeCfg.globalParams.VSCALE = "10";
   scopeCfg.globalParams.TSCALE = "100e-9";
-  scopeCfg.globalParams.TRIGSOURCE[0] = "8"; //trigger on channel 8 (which is actually the default value)
-  scopeCfg.globalParams.TRIGSOURCE[1] = "-0.440"; //set trigger level
-
+  //scopeCfg.globalParams.TRIGSOURCE[0] = "8"; //trigger on channel 8 (which is actually the default value)
+  //scopeCfg.globalParams.TRIGSOURCE[1] = "-0.440"; //set trigger level
+  scopeCfg.globalParams.TRIGSOURCE[0] = "4";
+  scopeCfg.globalParams.TRIGSOURCE[1] = "-0.640";
   //std::cout << scopeCfg.globalParams.VSCALE << std::endl;
   std::cout << scopeCfg.globalParams.TSCALE << std::endl;
 
@@ -55,12 +57,13 @@ int main()
   std::cout << data.first << " - "  << data.second << std::endl;
   std::cout << data.second << std::endl;
   
-  scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
+  //scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
   data = scope.query(const_cast<ViString>("HORizontal:SAMPLERate?"));
   std::cout << "SAMPLE RATE: " << data.second << std::endl;
   data = scope.query(const_cast<ViString>("HORizontal:RECOrdlength?"));
   std::cout << "RECORD LENGTH: " << data.second << std::endl;
-  //scope.binIn();
+  
+  scope.binIn();
   //scope.resetScope();
 
   //scope.Dir();
@@ -70,8 +73,10 @@ int main()
   scope.stopProfiler("devtest");
 
   return 0;
-}*/
+}
 
+
+/*
 #define MAX_CNT 200 
 
 #define MAX_CNT1 1000
@@ -111,9 +116,12 @@ int main(void)
 
   // Settings //
 
-  viWrite(vi, (ViBuf)":DATa:SOUrce CH1",17, &actual);
+  viWrite(vi, (ViBuf)":DATa:SOUrce CH4",17, &actual);
   viRead(vi,strres, MAX_CNT,  &retCount);
-  printf("Receving Data CH1: %s\n", strres);
+  printf("Receving Data CH4: %s\n", strres);
+
+  viWrite(vi, (ViBuf)":HORizontal:RECOrdlength 10000",31, &actual);
+  viRead(vi,strres, MAX_CNT,  &retCount);
 
   viWrite(vi, (ViBuf)":DATa:START 1",14, &actual);
   viRead(vi,strres, MAX_CNT,  &retCount);
@@ -127,7 +135,7 @@ int main(void)
   viWrite(vi, (ViBuf)":WFMOutpre:BYT_Nr 1",20, &actual);
   viRead(vi,strres, MAX_CNT,  &retCount);
 
-  viWrite(vi, (ViBuf)":HEADer 0",10, &actual);
+  viWrite(vi, (ViBuf)":HEADer 1",10, &actual);
   viRead(vi,strres, MAX_CNT,  &retCount);
 
   viWrite(vi,(ViBuf)":VERBOSE 1", 11,&actual);
@@ -149,6 +157,7 @@ int main(void)
       if((int)strres[i] != 0 && (int)strres[i] != 1 && (int)strres[i] != 255){
         std::cout << std::bitset<8>(strres[i]) << " ------ " << (int)strres[i] << " ------ " << i << std::endl;
       }
+      //std::cout << (int)strres[i] << std::endl;
   }
 
   // Off Channels//
@@ -161,4 +170,4 @@ int main(void)
   viClose(defaultRM);
   return 0;
 
-}
+}*/
