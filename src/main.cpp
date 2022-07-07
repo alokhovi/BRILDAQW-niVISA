@@ -1,10 +1,19 @@
 #include <iostream>
 #include <string>
 #include <bitset>
+//#include <boost/dynamic_bitset.hpp>
 
 #include "tekscope.hpp"
 #include "tekscopecfg.hpp"
 
+int to_int(boost::dynamic_bitset<> bnNum){//convert binary numbery to signed int
+  int len = bnNum.size();
+  int num = -(int)bnNum[len-1] * std::pow(2,len-1);
+  for(int i = 0; i<(len-1); i++){
+    num += std::pow(2,i)*(int)bnNum[i];
+  }
+  return num;
+}
 
 int main()
 {
@@ -26,12 +35,13 @@ int main()
   scopeCfg.channelConfigurationParameters[7].VSCALE = "0.25";//set ch8 vertical scale
   scopeCfg.channelConfigurationParameters[3].VSCALE = "0.5";//set ch8 vertical scale
 
-  //scopeCfg.globalParams.VSCALE = "10";
+  
   scopeCfg.globalParams.TSCALE = "100e-9";
-  //scopeCfg.globalParams.TRIGSOURCE[0] = "8"; //trigger on channel 8 (which is actually the default value)
-  //scopeCfg.globalParams.TRIGSOURCE[1] = "-0.440"; //set trigger level
   scopeCfg.globalParams.TRIGSOURCE[0] = "4";
   scopeCfg.globalParams.TRIGSOURCE[1] = "-0.640";
+
+  //scopeCfg.globalParams.TRIGSOURCE[0] = "8"; //trigger on channel 8 (which is actually the default value)
+  //scopeCfg.globalParams.TRIGSOURCE[1] = "-0.440"; //set trigger level
   //std::cout << scopeCfg.globalParams.VSCALE << std::endl;
   std::cout << scopeCfg.globalParams.TSCALE << std::endl;
 
@@ -65,9 +75,16 @@ int main()
   
   //scope.binIn();
   std::string form = scope.getForm("4","1","1","1250");
-  for(int i=14;i<1250;i++){
-      std::cout << (int)form[i] << std::endl;
-    }
+  std::bitset<8> b1 = std::bitset<8>(form[6]);
+  std::bitset<8> b2 = std::bitset<8>(form[7]);
+  //std::bitset<16> num = std::bitset<16>(b1.to_string() + b2.to_string());
+  boost::dynamic_bitset<> num = boost::dynamic_bitset<>(b1.to_string() + b2.to_string());
+  std::cout << b1 << " : " << b2 << std::endl;
+  //boost::dynamic_bitset<> num = boost::dynamic_bitset<>(b1.to_string());
+  std::cout << num << std::endl;
+  std::cout << "toInt : " << to_int(num) << std::endl;
+  std::cout << "BintoInt : " << binaryToInteger(num) << std::endl;
+  
   //scope.resetScope();
 
   //scope.Dir();

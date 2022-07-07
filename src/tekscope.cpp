@@ -19,6 +19,15 @@ void TekScope::startProfiler(const std::string & action)
     _beginning[action] = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
 }
 
+int binaryToInteger(boost::dynamic_bitset<> bnNum){//convert binary numbery to signed int via Two's Complement
+  int len = bnNum.size();
+  int num = -(int)bnNum[len-1] * std::pow(2,len-1);
+  for(int i = 0; i<(len-1); i++){
+    num += std::pow(2,i)*(int)bnNum[i];
+  }
+  return num;
+}
+
 std::chrono::milliseconds TekScope::stopProfiler(const std::string & action)
 {
     if ( ! _profilingEnabled ) return std::chrono::milliseconds::zero();
@@ -368,8 +377,18 @@ std::string TekScope::getForm(std::string channel, std::string byteNum, std::str
     this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY")); //set binary encoding format
     this->write(const_cast<ViString>(":HEADer 0")); //turn off headers
 
-    command = ":WFMOutpre:BYT_Nr " + byteNum; //set end point of data collection
+    command = ":WFMOutpre:BYT_Nr 2";// + byteNum; //set end point of data collection
     this->write(const_cast<ViString>(command.c_str()));
+    /*
+    command = ":HORIZONTAL:MODE MANUAL"; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = "WFMOUTPRE:BN_FMT FP";// + byteNum; //set end point of data collection
+    status = this->write(const_cast<ViString>(command.c_str()));
+    std::cout << "stat: " << status.second << std::endl;*/
+
+    data = this->query(const_cast<ViString>(":WFMOutpre:BYT_Nr?"));
+    std::cout << data.second << std::endl;
 
     data = this->query(":CURVE?");
     std::string form = data.second;

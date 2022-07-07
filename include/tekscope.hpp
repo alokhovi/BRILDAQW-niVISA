@@ -3,8 +3,11 @@
 
 #include <map>
 #include <chrono>
+#include <boost/dynamic_bitset.hpp>
 
 #include "interface.hpp"
+
+int binaryToInteger(boost::dynamic_bitset<> bnNum);
 
 namespace brildaq
 {
