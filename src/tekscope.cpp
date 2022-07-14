@@ -377,20 +377,49 @@ std::string TekScope::getForm(std::string channel, std::string byteNum, std::str
     this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY")); //set binary encoding format
     this->write(const_cast<ViString>(":HEADer 0")); //turn off headers
 
-    command = ":WFMOutpre:BYT_Nr 2";// + byteNum; //set end point of data collection
+    command = ":WFMOutpre:BYT_Nr " + byteNum; //set end point of data collection
     this->write(const_cast<ViString>(command.c_str()));
     /*
     command = ":HORIZONTAL:MODE MANUAL"; //set end point of data collection
-    this->write(const_cast<ViString>(command.c_str()));
-
-    command = "WFMOUTPRE:BN_FMT FP";// + byteNum; //set end point of data collection
-    status = this->write(const_cast<ViString>(command.c_str()));
-    std::cout << "stat: " << status.second << std::endl;*/
+    this->write(const_cast<ViString>(command.c_str()));*/
 
     data = this->query(const_cast<ViString>(":WFMOutpre:BYT_Nr?"));
-    std::cout << data.second << std::endl;
 
     data = this->query(":CURVE?");
     std::string form = data.second;
+    this->write(const_cast<ViString>(":HEADer 1")); //turn headers back on
     return form;
+}
+
+std::vector<std::string> TekScope::getMeasurementResults(std::string measurementID) //get the Mean,STD,Max,Min, and pop of a measurement
+{
+    std::vector<std::string> measurementValues; //vector to store the measurements
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+    std::string command;
+
+    command = "MEASUrement:MEAS" + measurementID + ":RESUlts:ALLAcqs:";
+
+    this->write(const_cast<ViString>("HEADER 0"));
+    data = this->query(const_cast<ViString>((command + "MEAN?").c_str())); //get the mean
+    std::cout << "Meanie: " << data.second << std::endl;
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "STDdev?").c_str())); //get std
+    std::cout << "STD: " << data.second << std::endl;
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "MAXimum?").c_str())); //get max value
+    std::cout << "Max: " << data.second << std::endl;
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "MINimum?").c_str())); //get min value
+    std::cout << "Min: " << data.second << std::endl;
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "POPUlation?").c_str())); //get population
+    std::cout << "Population: " << data.second << std::endl;
+    measurementValues.push_back(data.second);
+
+    return measurementValues;
 }

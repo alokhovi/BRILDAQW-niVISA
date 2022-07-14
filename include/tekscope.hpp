@@ -82,6 +82,8 @@ namespace brildaq
 
         virtual std::string getForm(std::string channel, std::string byteNum, std::string start, std::string stop);
 
+        virtual std::vector<std::string> getMeasurementResults(std::string measurementID);
+
       public:
 
         // Histograming of the scope readout time
