@@ -19,7 +19,8 @@ void TekScope::startProfiler(const std::string & action)
     _beginning[action] = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
 }
 
-int binaryToInteger(boost::dynamic_bitset<> bnNum){//convert binary numbery to signed int via Two's Complement
+int binaryToInteger(boost::dynamic_bitset<> bnNum)//convert binary numbery to signed int via Two's Complement
+{
   int len = bnNum.size();
   int num = -(int)bnNum[len-1] * std::pow(2,len-1);
   for(int i = 0; i<(len-1); i++){
@@ -402,23 +403,18 @@ std::vector<std::string> TekScope::getMeasurementResults(std::string measurement
 
     this->write(const_cast<ViString>("HEADER 0"));
     data = this->query(const_cast<ViString>((command + "MEAN?").c_str())); //get the mean
-    std::cout << "Meanie: " << data.second << std::endl;
     measurementValues.push_back(data.second);
 
     data = this->query(const_cast<ViString>((command + "STDdev?").c_str())); //get std
-    std::cout << "STD: " << data.second << std::endl;
     measurementValues.push_back(data.second);
 
     data = this->query(const_cast<ViString>((command + "MAXimum?").c_str())); //get max value
-    std::cout << "Max: " << data.second << std::endl;
     measurementValues.push_back(data.second);
 
     data = this->query(const_cast<ViString>((command + "MINimum?").c_str())); //get min value
-    std::cout << "Min: " << data.second << std::endl;
     measurementValues.push_back(data.second);
 
     data = this->query(const_cast<ViString>((command + "POPUlation?").c_str())); //get population
-    std::cout << "Population: " << data.second << std::endl;
     measurementValues.push_back(data.second);
 
     return measurementValues;

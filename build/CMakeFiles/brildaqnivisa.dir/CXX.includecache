@@ -56,6 +56,24 @@ tekscope.hpp
 tekscopecfg.hpp
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.hpp
 
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp
+iostream
+-
+fstream
+-
+numeric
+-
+cstring
+-
+string
+-
+thread
+-
+bitset
+-
+tekscope.hpp
+/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
+
 /usr/include/ni-visa/visa.h
 stdarg.h
 -
