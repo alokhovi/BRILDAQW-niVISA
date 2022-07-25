@@ -419,3 +419,15 @@ std::vector<std::string> TekScope::getMeasurementResults(std::string measurement
 
     return measurementValues;
 }
+
+void TekScope::measureDelays()//turn on delay measurements
+{
+    brildaq::nivisa::Data data;
+    this->write(const_cast<ViString>("HEADER 0"));
+
+    this->write(const_cast<ViString>("MEASUrement:ADDMEAS DELAY"));
+    this->write(const_cast<ViString>("MEASUrement:MEAS1:SOUrce CH3"));
+    this->write(const_cast<ViString>("MEASUrement:MEAS1:SOUrce2 CH4"));
+    std::cout << data.second << std::endl;
+    return;
+}

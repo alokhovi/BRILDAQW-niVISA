@@ -84,6 +84,8 @@ namespace brildaq
 
         virtual std::vector<std::string> getMeasurementResults(std::string measurementID);
 
+        virtual void measureDelays();
+
       public:
 
         // Histograming of the scope readout time
