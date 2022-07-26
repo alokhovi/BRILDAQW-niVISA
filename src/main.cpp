@@ -117,17 +117,23 @@ int main()
   std::cout << data.second << std::endl;
   data = scope.query(const_cast<ViString>("WFMOutpre:BN_Fmt?"));
   std::cout << data.second << std::endl;
+  data = scope.query(const_cast<ViString>("DISplay:WAVEView1:CH4:VERTical:SCAle?"));
+  //std::cout << data.second << std::endl;
+  std::size_t pos = data.second.find(" "); //look for space
+  std::string scale = data.second.substr(pos); //return scale
+  double scaleVal = std::stod(scale); //convert scale to double
 
   std::string form = scope.getForm("4","2","1","1250");
   std::bitset<8> b1;
   std::bitset<8> b2;
   boost::dynamic_bitset<> num;
-  for(int i = 6; i<50; i+=2){
+  for(int i = 6; i<1250; i+=2){
     b1 = std::bitset<8>(form[i]);
     b2 = std::bitset<8>(form[i+1]);
     num = boost::dynamic_bitset<>(b1.to_string() + b2.to_string());
-    std::cout << "bin : " << num << " || dec : " << binaryToInteger(num) << " || index : " << i << std::endl;
-    //std::cout << binaryToInteger(num) << std::endl;
+    //std::cout << "bin : " << num << " || dec : " << binaryToInteger(num) << " || index : " << i << std::endl;
+    int val = binaryToInteger(num);
+    std::cout << val * scaleVal*5/32767 << std::endl;
   }
   
   /*
