@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <bitset>
+#include <fstream>
 //#include <boost/dynamic_bitset.hpp>
 
 #include "tekscope.hpp"
@@ -108,7 +109,7 @@ int main()
     std::cout << res[i] << std::endl;
   }
   */
-  
+  /*
   data = scope.query(const_cast<ViString>(":HORIZONTAL:MODE?"));
   std::cout << data.second << std::endl;
   data = scope.query(const_cast<ViString>("HORizontal:SAMPLERate?"));
@@ -117,24 +118,220 @@ int main()
   std::cout << data.second << std::endl;
   data = scope.query(const_cast<ViString>("WFMOutpre:BN_Fmt?"));
   std::cout << data.second << std::endl;
+  */
+  /*
+  scope.write(const_cast<ViString>("HEADER 1"));
   data = scope.query(const_cast<ViString>("DISplay:WAVEView1:CH4:VERTical:SCAle?"));
-  //std::cout << data.second << std::endl;
+  std::cout << data.second << std::endl;
   std::size_t pos = data.second.find(" "); //look for space
   std::string scale = data.second.substr(pos); //return scale
   double scaleVal = std::stod(scale); //convert scale to double
+  
+  //for(int j = 0; j < 10; j++){
+  //std::ofstream outfile("dataRuns/run" + std::to_string(j) + ".txt");
 
+  
   std::string form = scope.getForm("4","2","1","1250");
   std::bitset<8> b1;
   std::bitset<8> b2;
   boost::dynamic_bitset<> num;
-  for(int i = 6; i<1250; i+=2){
+  for(int i = 6; i<2506; i+=2){
     b1 = std::bitset<8>(form[i]);
     b2 = std::bitset<8>(form[i+1]);
     num = boost::dynamic_bitset<>(b1.to_string() + b2.to_string());
     //std::cout << "bin : " << num << " || dec : " << binaryToInteger(num) << " || index : " << i << std::endl;
     int val = binaryToInteger(num);
-    std::cout << val * scaleVal*5/32767 << std::endl;
+    std::cout << val * scaleVal*5/32767 << " V" << std::endl;
+  }*/
+
+  /* ASCII Readout
+  status = scope.write(const_cast<ViString>(":Data:Source CH4"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Data source error" << std::endl;
   }
+  else {
+    std::cout << "Data source connection success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>(":Data:Start 1"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Data start error" << std::endl;
+  }
+  else {
+    std::cout << "Data start success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>(":Data:Stop 1250"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Data stop error" << std::endl;
+  }
+  else {
+    std::cout << "Data stop success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>(":WFMOutpre:ENCdg Ascii"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Encoding error" << std::endl;
+  }
+  else {
+    std::cout << "Encoding success!" << std::endl;
+  }
+  
+  
+  data = scope.query(const_cast<ViString>(":WFMOutpre?"));
+  if(data.first < VI_SUCCESS){
+    std::cout << "Outpre error" << std::endl;
+  }
+  else{
+    std::cout << data.second << std::endl;
+  }
+  
+
+  status = scope.write(const_cast<ViString>("acquire:state 0"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "state 0 error" << std::endl;
+  }
+  else {
+    std::cout << "state 0 success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "stopafter error" << std::endl;
+  }
+  else {
+    std::cout << "stopafter success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>("acquire:state 1"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "state 1 error" << std::endl;
+  }
+  else {
+    std::cout << "state 1 success!" << std::endl;
+  }
+
+  data = scope.query(const_cast<ViString>("*OPC?"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "OPC error" << std::endl;
+  }
+  else {
+    std::cout << "OPC success!" << std::endl;
+  }
+
+  data = scope.query(const_cast<ViString>(":CURVE?"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "curve error" << std::endl;
+  }
+  else {
+    std::cout << "curve success!" << std::endl;
+  }
+  std::cout << data.second << std::endl;
+  */
+  
+
+  /*
+  status = scope.write(const_cast<ViString>(":Data:Source CH4"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Data source error" << std::endl;
+  }
+  else {
+    std::cout << "Data source connection success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>(":Data:Start 1"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Data start error" << std::endl;
+  }
+  else {
+    std::cout << "Data start success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>(":Data:Stop 1250"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Data stop error" << std::endl;
+  }
+  else {
+    std::cout << "Data stop success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Encoding error" << std::endl;
+  }
+  else {
+    std::cout << "Encoding success!" << std::endl;
+  }
+  
+  status = scope.write(const_cast<ViString>(":Header 0"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "Header error" << std::endl;
+  }
+  else{
+    std::cout << "Header success!" << std::endl;
+  }
+  
+  status = scope.write(const_cast<ViString>("acquire:state 0"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "state 0 error" << std::endl;
+  }
+  else {
+    std::cout << "state 0 success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "stopafter error" << std::endl;
+  }
+  else {
+    std::cout << "stopafter success!" << std::endl;
+  }
+
+  status = scope.write(const_cast<ViString>("acquire:state 1"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "state 1 error" << std::endl;
+  }
+  else {
+    std::cout << "state 1 success!" << std::endl;
+  }
+
+  data = scope.query(const_cast<ViString>("*OPC?"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "OPC error" << std::endl;
+  }
+  else {
+    std::cout << "OPC success!" << std::endl;
+  }
+
+  data = scope.query(const_cast<ViString>(":CURVE?"));
+  if(status.first < VI_SUCCESS){
+    std::cout << "curve error" << std::endl;
+  }
+  else {
+    std::cout << "curve success!" << std::endl;
+  }
+
+  std::string form = data.second;
+  std::bitset<8> b1;
+  std::bitset<8> b2;
+  boost::dynamic_bitset<> num;
+
+  for(int i = 6; i<20; i+=2){
+    b1 = std::bitset<8>(form[i]);
+    b2 = std::bitset<8>(form[i+1]);
+    num = boost::dynamic_bitset<>(b1.to_string() + b2.to_string());
+    std::cout << "bin : " << num << " || dec : " << binaryToInteger(num) << " || index : " << i << std::endl;
+    int val = binaryToInteger(num);
+    std::cout << val * 0.5*5/32767 << " V" << std::endl;
+  }
+  */
+
+
+  //data = scope.query(const_cast<ViString>(":Data:Start"));
+  //data = scope.query(const_cast<ViString>(":Data:Source CH4"));
+  
+  //scope.resetScope();
+  //scope.query("*OPC?");
   
   /*
   data = scope.query(const_cast<ViString>("WFMOutpre?"));
@@ -143,7 +340,7 @@ int main()
   
   //data = scope.query(const_cast<ViString>("MEASU:MEAS1:SUBGROUP:RESUlts:CURRentacq:MEAN?"));
   //std::cout << data.second << std::endl;
-
+  scope.asciiWaveformReadout("4");
   scope.disconnect();
 
   //scope.stopProfiler("devtest");

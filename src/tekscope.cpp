@@ -5,6 +5,7 @@
 #include <string>
 #include <thread>
 #include <bitset>
+#include <sstream>
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
@@ -384,7 +385,13 @@ std::string TekScope::getForm(std::string channel, std::string byteNum, std::str
     command = ":HORIZONTAL:MODE MANUAL"; //set end point of data collection
     this->write(const_cast<ViString>(command.c_str()));*/
 
-    data = this->query(const_cast<ViString>(":WFMOutpre:BYT_Nr?"));
+    //data = this->query(const_cast<ViString>(":WFMOutpre:BYT_Nr?"));
+    /*
+    this->write(const_cast<ViString>("acquire:state 0"));
+    this->write(const_cast<ViString>("acquire:stopafter SEQUENCE"));
+    this->write(const_cast<ViString>("acquire:state 1"));
+    this->query("*OPC?");
+    */
 
     data = this->query(":CURVE?");
     std::string form = data.second;
@@ -430,4 +437,134 @@ void TekScope::measureDelays()//turn on delay measurements
     this->write(const_cast<ViString>("MEASUrement:MEAS1:SOUrce2 CH4"));
     std::cout << data.second << std::endl;
     return;
+}
+
+std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
+{
+    std::vector<float> form; //this will hold the waveform of individual channel
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data data;
+
+    std::string command = ":Data:Source CH" + channel;
+    status = this->write(const_cast<ViString>(command.c_str()));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Data source error" << std::endl;
+    }
+    else {
+        std::cout << "Data source connection success!" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>(":Header 0"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Header error" << std::endl;
+    }
+    else{
+        std::cout << "Header success!" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>(":Data:Start 1"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Data start error" << std::endl;
+    }
+    else {
+        std::cout << "Data start success!" << std::endl;
+    }
+
+    data = this->query(const_cast<ViString>("HORizontal:RECOrdlength?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "Record length error" << std::endl;
+    }
+    else {
+        std::cout << "Record length success!" << std::endl;
+    }
+
+    command = ":Data:Stop " + data.second;
+    status = this->write(const_cast<ViString>(command.c_str()));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Data stop error" << std::endl;
+    }
+    else {
+        std::cout << "Data stop success!" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>(":WFMOutpre:ENCdg Ascii"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Encoding error" << std::endl;
+    }
+    else {
+        std::cout << "Encoding success!" << std::endl;
+    }
+
+    data = this->query(const_cast<ViString>("DISplay:WAVEView1:CH4:VERTical:SCAle?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "Scale query error" << std::endl;
+    }
+    else {
+        std::cout << "Scale query success!" << std::endl;
+    }
+    float verticalScale = std::stof(data.second); //save the vertical scale
+    
+    /*
+    data = this->query(const_cast<ViString>(":WFMOutpre?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "Outpre error" << std::endl;
+    }
+    else{
+        std::cout << data.second << std::endl;
+    }*/
+    
+
+    status = this->write(const_cast<ViString>("acquire:state 0"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "state 0 error" << std::endl;
+    }
+    else {
+        std::cout << "state 0 success!" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>("acquire:stopafter sequence"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "stopafter error" << std::endl;
+    }
+    else {
+        std::cout << "stopafter success!" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>("acquire:state 1"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "state 1 error" << std::endl;
+    }
+    else {
+        std::cout << "state 1 success!" << std::endl;
+    }
+
+    data = this->query(const_cast<ViString>("*OPC?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "OPC error" << std::endl;
+    }
+    else {
+        std::cout << "OPC success!" << std::endl;
+    }
+
+    data = this->query(const_cast<ViString>(":CURVE?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "curve error" << std::endl;
+    }
+    else {
+        std::cout << "curve success!" << std::endl;
+    }
+    
+    //std::vector<int> vect;
+    std::stringstream ss(data.second);
+
+    for (int i; ss >> i;) {
+        form.push_back((float)i * verticalScale * 5 / 32767); //convert to voltage value    
+        if (ss.peek() == ',')
+            ss.ignore();
+    }
+
+    for(std::size_t i = 0; i < form.size(); i++)
+        std::cout << form[i] << std::endl;
+
+    return form;
 }

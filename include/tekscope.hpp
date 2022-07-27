@@ -86,6 +86,8 @@ namespace brildaq
 
         virtual void measureDelays();
 
+        virtual std::vector<float> asciiWaveformReadout(std::string channel);
+
       public:
 
         // Histograming of the scope readout time
