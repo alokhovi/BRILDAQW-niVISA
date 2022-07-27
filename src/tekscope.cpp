@@ -178,6 +178,34 @@ Waveform TekScope::readWaveform()
     return std::make_pair(VI_SUCCESS,boost::none);
 }
 
+std::map<int, std::vector<float>> TekScope::readWaveformAscii()
+{
+    std::map<int, std::vector<float>> forms;
+    brildaq::nivisa::Status status;
+
+    status = this->write(const_cast<ViString>("acquire:state 0"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "state 0 error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>("acquire:stopafter sequence"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "stopafter error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>("acquire:state 1"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "state 1 error" << std::endl;
+    }
+
+    //forms.insert(std::pair<int, std::vector<float>>(4,this->asciiWaveformReadout("4")));
+    for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
+    {
+        forms.insert(std::pair<int, std::vector<float>>(i,this->asciiWaveformReadout(std::to_string(i))));
+    }
+    return forms;
+}
+
 TekScope::~TekScope()
 {
 
@@ -450,32 +478,20 @@ std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
     if(status.first < VI_SUCCESS){
         std::cout << "Data source error" << std::endl;
     }
-    else {
-        std::cout << "Data source connection success!" << std::endl;
-    }
 
     status = this->write(const_cast<ViString>(":Header 0"));
     if(status.first < VI_SUCCESS){
         std::cout << "Header error" << std::endl;
-    }
-    else{
-        std::cout << "Header success!" << std::endl;
     }
 
     status = this->write(const_cast<ViString>(":Data:Start 1"));
     if(status.first < VI_SUCCESS){
         std::cout << "Data start error" << std::endl;
     }
-    else {
-        std::cout << "Data start success!" << std::endl;
-    }
 
     data = this->query(const_cast<ViString>("HORizontal:RECOrdlength?"));
     if(data.first < VI_SUCCESS){
         std::cout << "Record length error" << std::endl;
-    }
-    else {
-        std::cout << "Record length success!" << std::endl;
     }
 
     command = ":Data:Stop " + data.second;
@@ -483,24 +499,16 @@ std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
     if(status.first < VI_SUCCESS){
         std::cout << "Data stop error" << std::endl;
     }
-    else {
-        std::cout << "Data stop success!" << std::endl;
-    }
 
     status = this->write(const_cast<ViString>(":WFMOutpre:ENCdg Ascii"));
     if(status.first < VI_SUCCESS){
         std::cout << "Encoding error" << std::endl;
     }
-    else {
-        std::cout << "Encoding success!" << std::endl;
-    }
 
-    data = this->query(const_cast<ViString>("DISplay:WAVEView1:CH4:VERTical:SCAle?"));
+    command = "DISplay:WAVEView1:CH" + channel + ":VERTical:SCAle?";
+    data = this->query(const_cast<ViString>(command.c_str()));
     if(data.first < VI_SUCCESS){
         std::cout << "Scale query error" << std::endl;
-    }
-    else {
-        std::cout << "Scale query success!" << std::endl;
     }
     float verticalScale = std::stof(data.second); //save the vertical scale
     
@@ -512,46 +520,15 @@ std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
     else{
         std::cout << data.second << std::endl;
     }*/
-    
-
-    status = this->write(const_cast<ViString>("acquire:state 0"));
-    if(status.first < VI_SUCCESS){
-        std::cout << "state 0 error" << std::endl;
-    }
-    else {
-        std::cout << "state 0 success!" << std::endl;
-    }
-
-    status = this->write(const_cast<ViString>("acquire:stopafter sequence"));
-    if(status.first < VI_SUCCESS){
-        std::cout << "stopafter error" << std::endl;
-    }
-    else {
-        std::cout << "stopafter success!" << std::endl;
-    }
-
-    status = this->write(const_cast<ViString>("acquire:state 1"));
-    if(status.first < VI_SUCCESS){
-        std::cout << "state 1 error" << std::endl;
-    }
-    else {
-        std::cout << "state 1 success!" << std::endl;
-    }
 
     data = this->query(const_cast<ViString>("*OPC?"));
     if(data.first < VI_SUCCESS){
         std::cout << "OPC error" << std::endl;
     }
-    else {
-        std::cout << "OPC success!" << std::endl;
-    }
 
     data = this->query(const_cast<ViString>(":CURVE?"));
     if(data.first < VI_SUCCESS){
         std::cout << "curve error" << std::endl;
-    }
-    else {
-        std::cout << "curve success!" << std::endl;
     }
     
     //std::vector<int> vect;
@@ -563,8 +540,8 @@ std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
             ss.ignore();
     }
 
-    for(std::size_t i = 0; i < form.size(); i++)
-        std::cout << form[i] << std::endl;
+    //for(std::size_t i = 0; i < form.size(); i++)
+        //std::cout << form[i] << std::endl;
 
     return form;
 }

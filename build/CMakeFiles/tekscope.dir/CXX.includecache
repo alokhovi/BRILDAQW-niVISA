@@ -53,6 +53,8 @@ bitset
 -
 fstream
 -
+iterator
+-
 tekscope.hpp
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
 tekscopecfg.hpp
