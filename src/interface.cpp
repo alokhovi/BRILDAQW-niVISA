@@ -176,11 +176,11 @@ std::vector<float> Interface::ReadWaveform() noexcept
     assert(_isConnected);     
 
     ViStatus            status; 
-    ViUInt32            read;
+    //ViUInt32            read;
     float               yoffset, ymult;
     ViChar              buffer[256];
-    ViChar              c;
-    long                count, i;
+    //ViChar              c;
+    //long                count, i;
     std::vector<float>  form;
     int                 recordLen;
 
@@ -197,7 +197,7 @@ std::vector<float> Interface::ReadWaveform() noexcept
 
     // Get record length value
     status = viQueryf(_instrumentSession, "HORizontal:RECOrdlength?\n", "%u", &recordLen);
-    printf("%u\n",recordLen);
+    //printf("%u\n",recordLen);
     if (status < VI_SUCCESS) goto error;
 
     //set aqcuisition start and end
@@ -247,6 +247,6 @@ error:
     viStatusDesc(_instrumentSession, status, buffer);
     fprintf(stderr, "Failure: %s\n", buffer);
     //if (ptr != NULL) free(ptr);
-    disconnect();
-    return form;
+    //disconnect();
+    return form; //not the best return. Maybe I should switch to pointers
 }

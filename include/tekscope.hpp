@@ -43,6 +43,8 @@ namespace brildaq
 
         virtual std::map<int, std::vector<float>> readWaveformAscii();
 
+        virtual std::map<int, std::vector<float>> readWaveformBinary();
+
         Data Dir(const ViString & directory = nullptr);
 
         Status reset();

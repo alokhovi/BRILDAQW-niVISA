@@ -67,12 +67,11 @@ int main()
   }
 
   brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
-  //std::cout << data.first << " - "  << data.second << std::endl;
   std::cout << data.second << std::endl;
   
   //scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
 
-
+  //BELOW THIS DELETE
 
   /*
   float scaleVal = 0.5;
@@ -110,14 +109,6 @@ int main()
   scope.write(const_cast<ViString>(":HORIZONTAL:MODE:Recordlength 5e7"));*/
   
   /*
-  using std::chrono::high_resolution_clock;
-  using std::chrono::duration_cast;
-  using std::chrono::duration;
-  using std::chrono::milliseconds;
-
-  auto t1 = high_resolution_clock::now();
-  std::map<int, std::vector<float> > forms =  scope.readWaveformAscii();
-  auto t2 = high_resolution_clock::now();
 
   duration<double, std::milli> ms_double = t2 - t1;
 
@@ -137,31 +128,89 @@ int main()
   */
   //scope.resetScope();
   //scope.channelState("4","1");
-  status = scope.write(const_cast<ViString>(":Data:Source CH4"));
-  status = scope.write(const_cast<ViString>("HEADER 1"));
-  data = scope.query(const_cast<ViString>("WFMOUTPRE:YMULT?"));
-  std::cout << data.second << std::endl;
+
+  std::string command;
+  std::string channel = "4";
+/*
+  command = "SELECT:CH" + channel + " ON"; //turn on channel
+  scope.write(const_cast<ViString>(command.c_str()));*/
+
+  command = ":DATa:SOUrce CH" + channel; //turn on channel
+  scope.write(const_cast<ViString>(command.c_str()));
+
+  //status = scope.write(const_cast<ViString>(":Data:Source CH3"));
+  //std::cout << data.second << std::endl;
+
+  using std::chrono::high_resolution_clock;
+  using std::chrono::duration_cast;
+  using std::chrono::duration;
+  using std::chrono::milliseconds;
+
+  status = scope.write(const_cast<ViString>("acquire:state 0"));
+  status = scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+  status = scope.write(const_cast<ViString>("acquire:state 1"));
+  std::vector<float> f;
+  duration<double, std::milli> ms_double;
+  auto t1 = high_resolution_clock::now();
+  auto t2 = high_resolution_clock::now();
+
+  std::ofstream ASCIIoutfile("aqTimeData/ASCIIaqTimes.txt");
+  std::ofstream Binaryoutfile("aqTimeData/BinaryaqTimes.txt");
+
+  int end = 4500;
+  /*
+  for(int i = 0; i < end; i++)
+  {
+    if(((i+1) % 10) == 0) std::cout << std::to_string((double)(i+1)*100/end) << "%" << std::endl;
+    
+    t1 = high_resolution_clock::now();
+    //std::map<int, std::vector<float>> forms = scope.readWaveformBinary();
+    f = scope.ReadWaveform();
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    Binaryoutfile << ms_double.count() << std::endl;
+    //std::cout << "Binary Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
+
+    t1 = high_resolution_clock::now();
+    f = scope.asciiWaveformReadout("4");
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    ASCIIoutfile << ms_double.count() << std::endl;
+
+    //ms_double = t2 - t1;
+    //std::cout << "ASCII Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
+  }*/
+
+  //printf("Hi");
 
 
-  std::vector<float> f = scope.ReadWaveform();
+  /*
   for(std::size_t i; i < f.size(); i++){
     std::cout << std::to_string(f[i]) << std::endl;
+  }*/
+
+
+/*
+  std::vector<float> form;
+  for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++){
+    std::ofstream outfile("channelData/CH" + std::to_string(i) + ".txt");
+    form = forms[i];
+    for(std::size_t j = 0; j < form.size(); j++){
+      outfile << std::to_string(form[j]) << std::endl;
+    }
   }
-  /*
-  char b[] = {'h','e','l','l','o'};
-  printf("%c\n",b[0]);
-  printf("%c\n",b.get());*/
-
-
-  //data = scope.query(const_cast<ViString>("WFMOUTPRE:YOFF?"));
-  //std::cout << data.second << std::endl;
-  //data = scope.query(const_cast<ViString>("HORizontal:RECOrdlength?"));
-  //std::cout << data.second << std::endl;
+*/
   
-  /*
   scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
-  scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));*/
+  scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));
 
+  std::vector<std::string> results = scope.getMeasurementResults("1");
+  for(std::size_t i = 0; i < results.size(); i++){
+    std::cout << results[i] << std::endl;
+  }
+
+
+  //SAVE THIS
   scope.disconnect();
 
   //scope.stopProfiler("devtest");

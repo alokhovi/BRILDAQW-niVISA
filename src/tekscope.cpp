@@ -178,6 +178,29 @@ Waveform TekScope::readWaveform()
     return std::make_pair(VI_SUCCESS,boost::none);
 }
 
+std::map<int, std::vector<float>> TekScope::readWaveformBinary()
+{
+    std::map<int, std::vector<float>>   forms;
+    brildaq::nivisa::Status             status;
+
+    status = this->write(const_cast<ViString>("acquire:state 0"));
+
+    status = this->write(const_cast<ViString>("acquire:stopafter sequence"));
+
+    status = this->write(const_cast<ViString>("acquire:state 1"));
+
+    std::string command;
+    for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
+    {
+        command = ":DATa:SOUrce CH" + std::to_string(i);
+        this->write(const_cast<ViString>(command.c_str()));
+        forms.insert(std::pair<int, std::vector<float>>(i,this->ReadWaveform()));
+        printf("Channel %u Done\n",i);
+    }
+    
+    return forms;
+}
+
 std::map<int, std::vector<float>> TekScope::readWaveformAscii()
 {
     std::map<int, std::vector<float>> forms;
