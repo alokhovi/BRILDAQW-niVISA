@@ -203,6 +203,7 @@ std::map<int, std::vector<float>> TekScope::readWaveformAscii()
     {
         forms.insert(std::pair<int, std::vector<float>>(i,this->asciiWaveformReadout(std::to_string(i))));
     }
+    
     return forms;
 }
 

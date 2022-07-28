@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include <visa.h>
+//#include <assert.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,6 +52,10 @@ namespace brildaq
         virtual Data     query(const ViString & command) noexcept; //send query to scope and return response
 
         virtual Status   write(const ViString & command) noexcept; //send command to scope
+
+        // This function reads the currently selected waveform and returns
+        // it as an array of doubles.
+        virtual std::vector<float>  ReadWaveform() noexcept;
         
         virtual ~Interface() { if (_isConnected) disconnect(); }
 

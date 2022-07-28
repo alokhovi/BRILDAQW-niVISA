@@ -3,10 +3,12 @@
 #include <bitset>
 #include <fstream>
 #include <iterator>
+#include <chrono>
 //#include <boost/dynamic_bitset.hpp>
 
 #include "tekscope.hpp"
 #include "tekscopecfg.hpp"
+
 
 int main()
 {
@@ -70,8 +72,19 @@ int main()
   
   //scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
 
+
+
   /*
-  std::string form = scope.getForm("4","2","1","1250");
+  float scaleVal = 0.5;
+  std::string form = scope.getForm("4","1","1","1250");
+  double pnt;
+  for(int i = 6; i < 1256; i++){
+    pnt = (((double) form[i]) - 0) * 0.04;
+    printf("%ld",pnt);
+  }
+  */
+
+  /*
   std::bitset<8> b1;
   std::bitset<8> b2;
   boost::dynamic_bitset<> num;
@@ -85,8 +98,32 @@ int main()
   }*/
   
   
+
+
+
+
+
   //scope.asciiWaveformReadout("4");
+
+  /*scope.write(const_cast<ViString>(":HORIZONTAL:MODE MANUAL"));
+  scope.write(const_cast<ViString>(":HORIZONTAL:MODE:Samplerate 500e9"));
+  scope.write(const_cast<ViString>(":HORIZONTAL:MODE:Recordlength 5e7"));*/
+  
+  /*
+  using std::chrono::high_resolution_clock;
+  using std::chrono::duration_cast;
+  using std::chrono::duration;
+  using std::chrono::milliseconds;
+
+  auto t1 = high_resolution_clock::now();
   std::map<int, std::vector<float> > forms =  scope.readWaveformAscii();
+  auto t2 = high_resolution_clock::now();
+
+  duration<double, std::milli> ms_double = t2 - t1;
+
+  //std::cout << ms_int.count() << "ms\n";
+  std::cout << "Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
+  
   
   std::vector<float> form;
   
@@ -97,10 +134,33 @@ int main()
       outfile << std::to_string(form[j]) << std::endl;
     }
   }
-  
+  */
+  //scope.resetScope();
+  //scope.channelState("4","1");
+  status = scope.write(const_cast<ViString>(":Data:Source CH4"));
+  status = scope.write(const_cast<ViString>("HEADER 1"));
+  data = scope.query(const_cast<ViString>("WFMOUTPRE:YMULT?"));
+  std::cout << data.second << std::endl;
 
-  //scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
-  //scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));
+
+  std::vector<float> f = scope.ReadWaveform();
+  for(std::size_t i; i < f.size(); i++){
+    std::cout << std::to_string(f[i]) << std::endl;
+  }
+  /*
+  char b[] = {'h','e','l','l','o'};
+  printf("%c\n",b[0]);
+  printf("%c\n",b.get());*/
+
+
+  //data = scope.query(const_cast<ViString>("WFMOUTPRE:YOFF?"));
+  //std::cout << data.second << std::endl;
+  //data = scope.query(const_cast<ViString>("HORizontal:RECOrdlength?"));
+  //std::cout << data.second << std::endl;
+  
+  /*
+  scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
+  scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));*/
 
   scope.disconnect();
 
@@ -108,3 +168,135 @@ int main()
 
   return 0;
 }
+
+
+
+/*
+double* ReadWaveform(ViSession vi, long* elements) noexcept
+{
+    ViStatus status;
+    float yoffset, ymult;
+    ViChar buffer[256];
+    ViChar c;
+    long count, i;
+    double* ptr = NULL;
+
+    assert(elements != NULL);
+
+    status = viSetAttribute(vi, VI_ATTR_WR_BUF_OPER_MODE,VI_FLUSH_ON_ACCESS);
+    status = viSetAttribute(vi, VI_ATTR_RD_BUF_OPER_MODE,VI_FLUSH_ON_ACCESS);
+
+    // Turn headers off, this makes parsing easier
+    status = viPrintf(vi, "header off\n");
+    if (status < VI_SUCCESS) goto error;
+
+    // Get record length value
+    status = viQueryf(vi, "hor:reco?\n", "%ld", elements);
+    if (status < VI_SUCCESS) goto error;
+
+    // Make sure start, stop values for curve query match the
+    // full record length
+    status = viPrintf(vi, "data:start %d;data:stop %d\n", 0,(*elements)-1);
+    if (status < VI_SUCCESS) goto error;
+
+    // Get the yoffset to help calculate the vertical values.
+    status = viQueryf(vi, "WFMOUTPRE:YOFF?\n", "%f", &yoffset);
+    if (status < VI_SUCCESS) goto error;
+
+    // Get the ymult to help calculate the vertical values.
+    status = viQueryf(vi, "WFMOutpre:YMULT?\n", "%f", &ymult);
+    if (status < VI_SUCCESS) goto error;
+
+    // Request 8-bit binary data on the curve query
+    status = viPrintf(vi, "DATA:ENCDG RIBINARY;WIDTH 1\n");
+    if (status < VI_SUCCESS) goto error;
+
+    // Request the curve
+    status = viPrintf(vi, "CURVE?\n");
+    if (status < VI_SUCCESS) goto error;
+
+    // Always flush if a viScanf follows a viPrintf or
+    // viBufWrite.
+    status = viFlush(vi, VI_WRITE_BUF | VI_READ_BUF_DISCARD);
+    if (status < VI_SUCCESS) goto error;
+
+    // Get first char and validate
+    status = viScanf(vi, "%c", &c);
+    if (status < VI_SUCCESS) goto error;
+    assert(c == '#');
+
+    // Get width of element field.
+    status = viScanf(vi, "%c", &c);
+    if (status < VI_SUCCESS) goto error;
+    assert(c >= '0' && c <= '9');
+
+    // Read element characters
+    count = c - '0';
+    for (i = 0; i < count; i++) {
+        status = viScanf(vi, "%c", &c);
+        if (status < VI_SUCCESS) goto error;
+        assert(c >= '0' && c <= '9');
+    }
+
+    // Read waveform into allocated storage
+    ptr = (double*) malloc(*elements*sizeof(double));
+    for (i = 0; i < *elements; i++) {
+        status = viScanf(vi, "%c", &c);
+        if (status < VI_SUCCESS) goto error;
+        ptr[i] = (((double) c) - yoffset) * ymult;
+    }
+
+    status = viFlush(vi, VI_WRITE_BUF | VI_READ_BUF_DISCARD);
+    if (status < VI_SUCCESS) goto error;
+
+    return ptr;
+
+error:
+    // Report error and clean up
+    viStatusDesc(vi, status, buffer);
+    fprintf(stderr, "failure: %s\n", buffer);
+    if (ptr != NULL) free(ptr);
+    return NULL;
+}
+
+// This program reads a waveform from a Tektronix
+// TDS scope and writes the floating point values to
+// stdout.
+int main(int argc, char* argv[]){
+  ViSession        rm = VI_NULL, vi = VI_NULL;
+  ViStatus status;
+  ViChar           buffer[256];
+  double*          wfm = NULL;
+  long             elements, i;
+
+  // Open a default session
+  status = viOpenDefaultRM(&rm);
+  if (status < VI_SUCCESS) goto error;
+
+  // Open the GPIB device at primary address 1, GPIB board 8
+  status = viOpen(rm, "GPIB8::1::INSTR", VI_NULL, VI_NULL,&vi);
+  if (status < VI_SUCCESS) goto error;
+
+  // Read waveform and write it to stdout
+  wfm = ReadWaveform(vi, &elements);
+  if (wfm != NULL) {
+    for (i = 0; i < elements; i++) {
+      printf("%f\n", wfm[i]);
+    }
+  }
+
+  // Clean up
+  if (wfm != NULL) free(wfm);
+  viClose(vi); // Not needed, but makes things a bit more understandable
+  viClose(rm);
+
+  return 0;
+
+error:
+  // Report error and clean up
+  viStatusDesc(vi, status, buffer);
+  fprintf(stderr, "failure: %s\n", buffer);
+  if (rm != VI_NULL) viClose(rm);
+  if (wfm != NULL) free(wfm);
+  return 1;
+}*/
