@@ -11,6 +11,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <boost/dynamic_bitset.hpp>
+
+int binaryToInteger(boost::dynamic_bitset<> bnNum);
   
 namespace brildaq
 {

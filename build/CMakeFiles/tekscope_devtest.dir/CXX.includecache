@@ -21,6 +21,8 @@ stdio.h
 -
 stdlib.h
 -
+boost/dynamic_bitset.hpp
+-
 
 ../include/tekscope.hpp
 map

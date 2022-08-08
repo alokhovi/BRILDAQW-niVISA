@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iterator>
 #include <chrono>
+#include <stdlib.h> 
 //#include <boost/dynamic_bitset.hpp>
 
 #include "tekscope.hpp"
@@ -23,10 +24,10 @@ int main()
   scopeCfg.connectionParameters.timeout          = 5000;
   scopeCfg.connectionParameters.exclusiveLock    = true;
 
-  scopeCfg.channelConfigurationParameters[0].ONOFF = true;
-  scopeCfg.channelConfigurationParameters[1].ONOFF = true;//turn on channel 2
-  scopeCfg.channelConfigurationParameters[2].ONOFF = true;
-  scopeCfg.channelConfigurationParameters[3].ONOFF = true;//turn on channel 4
+  scopeCfg.channelConfigurationParameters[0].ONOFF = false;
+  scopeCfg.channelConfigurationParameters[1].ONOFF = false;//turn on channel 2
+  scopeCfg.channelConfigurationParameters[2].ONOFF = false;
+  scopeCfg.channelConfigurationParameters[3].ONOFF = false;//turn on channel 4
   scopeCfg.channelConfigurationParameters[4].ONOFF = true;
   scopeCfg.channelConfigurationParameters[5].ONOFF = true;
   scopeCfg.channelConfigurationParameters[6].ONOFF = true;
@@ -37,19 +38,16 @@ int main()
   scopeCfg.channelConfigurationParameters[2].VSCALE = "0.5";
   scopeCfg.channelConfigurationParameters[3].VSCALE = "0.5";
   scopeCfg.channelConfigurationParameters[4].VSCALE = "0.5";
-  scopeCfg.channelConfigurationParameters[5].VSCALE = "0.5";
-  scopeCfg.channelConfigurationParameters[6].VSCALE = "0.5";
+  scopeCfg.channelConfigurationParameters[5].VSCALE = "0.2";
+  scopeCfg.channelConfigurationParameters[6].VSCALE = "0.2";
   scopeCfg.channelConfigurationParameters[7].VSCALE = "0.25";//set ch8 vertical scale
 
   
-  scopeCfg.globalParams.TSCALE = "100e-9";
-  scopeCfg.globalParams.TRIGSOURCE[0] = "4";
-  scopeCfg.globalParams.TRIGSOURCE[1] = "-0.640";
+  scopeCfg.globalParams.TSCALE = "20e-9";
+  scopeCfg.globalParams.TRIGSOURCE[0] = "6";
+  scopeCfg.globalParams.TRIGSOURCE[1] = "-0.432";
 
-  scopeCfg.globalParams.TRIGSOURCE[0] = "8"; //trigger on channel 8 (which is actually the default value)
-  scopeCfg.globalParams.TRIGSOURCE[1] = "-0.440"; //set trigger level
-
-  scope.enableProfiling();
+  //scope.enableProfiling();
 
   //scope.startProfiler("devtest"); 
 
@@ -68,20 +66,6 @@ int main()
 
   brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
   std::cout << data.second << std::endl;
-  
-  //scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
-
-  //BELOW THIS DELETE
-
-  /*
-  float scaleVal = 0.5;
-  std::string form = scope.getForm("4","1","1","1250");
-  double pnt;
-  for(int i = 6; i < 1256; i++){
-    pnt = (((double) form[i]) - 0) * 0.04;
-    printf("%ld",pnt);
-  }
-  */
 
   /*
   std::bitset<8> b1;
@@ -95,12 +79,6 @@ int main()
     int val = binaryToInteger(num);
     std::cout << val * scaleVal*5/32767 << " V" << std::endl;
   }*/
-  
-  
-
-
-
-
 
   //scope.asciiWaveformReadout("4");
 
@@ -127,28 +105,53 @@ int main()
   }
   */
   //scope.resetScope();
-  //scope.channelState("4","1");
+  //scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
 
   std::string command;
   std::string channel = "4";
-/*
+
   command = "SELECT:CH" + channel + " ON"; //turn on channel
-  scope.write(const_cast<ViString>(command.c_str()));*/
+  scope.write(const_cast<ViString>(command.c_str()));
 
   command = ":DATa:SOUrce CH" + channel; //turn on channel
   scope.write(const_cast<ViString>(command.c_str()));
 
+  scope.write(const_cast<ViString>("WFMOutpre:Byt_Nr 1"));
+
+
+
+  //scope.write(const_cast<ViString>("acquire:state 0"));
+  //scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+  //scope.write(const_cast<ViString>("acquire:state 1"));
+
+
+  
+  std::vector<float> form = scope.ReadWaveform();
+  //scope.write(const_cast<ViString>("Header On"));
+  //data = scope.query(const_cast<ViString>("*OPC?"));
+
+  //for(int j = 0; j < 100; j++) form = scope.ReadWaveform();
+  
+  std::ofstream outfile("channelData/BinaryTestCH" + channel + ".txt");
+  int end = form.size();
+  //std::cout << std::to_string(form.size()) << std::endl;
+  for(std::size_t j = 0; j < end; j++){
+    outfile << std::to_string(form[j]) << std::endl;
+    //std::cout << std::to_string(form[j]) << std::endl;
+  }
+
   //status = scope.write(const_cast<ViString>(":Data:Source CH3"));
   //std::cout << data.second << std::endl;
-
+  
+  /*
   using std::chrono::high_resolution_clock;
   using std::chrono::duration_cast;
   using std::chrono::duration;
   using std::chrono::milliseconds;
 
-  status = scope.write(const_cast<ViString>("acquire:state 0"));
-  status = scope.write(const_cast<ViString>("acquire:stopafter sequence"));
-  status = scope.write(const_cast<ViString>("acquire:state 1"));
+  //status = scope.write(const_cast<ViString>("acquire:state 0"));
+  //status = scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+  //status = scope.write(const_cast<ViString>("acquire:state 1"));
   std::vector<float> f;
   duration<double, std::milli> ms_double;
   auto t1 = high_resolution_clock::now();
@@ -157,28 +160,38 @@ int main()
   std::ofstream ASCIIoutfile("aqTimeData/ASCIIaqTimes.txt");
   std::ofstream Binaryoutfile("aqTimeData/BinaryaqTimes.txt");
 
-  int end = 4500;
-  /*
+  std::map<int, std::vector<float>> forms;
+  std::map<int, std::vector<float>> formsASC;
+
+  int end = 1;
+  
   for(int i = 0; i < end; i++)
   {
     if(((i+1) % 10) == 0) std::cout << std::to_string((double)(i+1)*100/end) << "%" << std::endl;
     
+    
     t1 = high_resolution_clock::now();
-    //std::map<int, std::vector<float>> forms = scope.readWaveformBinary();
-    f = scope.ReadWaveform();
+    forms = scope.readWaveformBinary();
+    //std::cout << forms[0][5] << std::endl;
+    //f = scope.ReadWaveform();
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
-    Binaryoutfile << ms_double.count() << std::endl;
-    //std::cout << "Binary Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
+    //Binaryoutfile << ms_double.count() << std::endl;
+    std::cout << "Binary Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
+    //sleep(50);
+    
 
+    
     t1 = high_resolution_clock::now();
-    f = scope.asciiWaveformReadout("4");
+    //f = scope.asciiWaveformReadout("4");
+    formsASC = scope.readWaveformAscii();
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
-    ASCIIoutfile << ms_double.count() << std::endl;
+    //ASCIIoutfile << ms_double.count() << std::endl;
+    //std::cout << ms_double.count() << std::endl;
 
     //ms_double = t2 - t1;
-    //std::cout << "ASCII Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
+    std::cout << "ASCII Waveform Aqcuisiton Time : " << ms_double.count() << "ms\n";
   }*/
 
   //printf("Hi");
@@ -190,25 +203,44 @@ int main()
   }*/
 
 
-/*
-  std::vector<float> form;
+
+  //std::vector<float> form;
+
+  /*
+  //std::cout << "BINARY" << std::endl;
   for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++){
-    std::ofstream outfile("channelData/CH" + std::to_string(i) + ".txt");
+    std::ofstream outfile("channelData/BinaryCH" + std::to_string(i) + ".txt");
+    //std::cout << "CH" << i << std::endl;
     form = forms[i];
     for(std::size_t j = 0; j < form.size(); j++){
+    //for(std::size_t j = 0; j < 3; j++){
       outfile << std::to_string(form[j]) << std::endl;
     }
   }
-*/
+  /*
+  //std::cout << "ASCII" << std::endl;
+  for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++){
+    std::ofstream outfile("channelData/ASCIICH" + std::to_string(i) + ".txt");
+    //std::cout << "CH" << i << std::endl;
+    form = formsASC[i];
+    for(std::size_t j = 0; j < form.size(); j++){
+    //for(std::size_t j = 0; j < 3; j++){
+      outfile << std::to_string(form[j]) << std::endl;
+    }
+  }*/
+
   
   scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
   scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));
-
+/*
   std::vector<std::string> results = scope.getMeasurementResults("1");
   for(std::size_t i = 0; i < results.size(); i++){
     std::cout << results[i] << std::endl;
   }
-
+*/
+  //scope.write(const_cast<ViString>("HEADER 1"));
+  //data = scope.query("WFMOUTPRE?");
+  //std::cout << data.second << std::endl;
 
   //SAVE THIS
   scope.disconnect();

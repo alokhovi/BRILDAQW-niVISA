@@ -4,7 +4,6 @@
 #include <cstring>
 #include <string>
 #include <thread>
-#include <bitset>
 #include <sstream>
 
 #include "tekscope.hpp"
@@ -18,16 +17,6 @@ void TekScope::startProfiler(const std::string & action)
     assert(!action.empty());
 
     _beginning[action] = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
-}
-
-int binaryToInteger(boost::dynamic_bitset<> bnNum)//convert binary numbery to signed int via Two's Complement
-{
-  int len = bnNum.size();
-  int num = -(int)bnNum[len-1] * std::pow(2,len-1);
-  for(int i = 0; i<(len-1); i++){
-    num += std::pow(2,i)*(int)bnNum[i];
-  }
-  return num;
 }
 
 std::chrono::milliseconds TekScope::stopProfiler(const std::string & action)
@@ -181,13 +170,17 @@ Waveform TekScope::readWaveform()
 std::map<int, std::vector<float>> TekScope::readWaveformBinary()
 {
     std::map<int, std::vector<float>>   forms;
-    brildaq::nivisa::Status             status;
+    //brildaq::nivisa::Status             status;
+    brildaq::nivisa::Data               data;
 
-    status = this->write(const_cast<ViString>("acquire:state 0"));
+    this->write(const_cast<ViString>("acquire:state 0"));
 
-    status = this->write(const_cast<ViString>("acquire:stopafter sequence"));
+    this->write(const_cast<ViString>("acquire:stopafter sequence"));
 
-    status = this->write(const_cast<ViString>("acquire:state 1"));
+    this->write(const_cast<ViString>("acquire:state 1"));
+
+    data = this->query(const_cast<ViString>("WFMOUTPre:Byt_NR?"));
+    std::cout << data.second << std::endl;
 
     std::string command;
     for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
@@ -195,7 +188,7 @@ std::map<int, std::vector<float>> TekScope::readWaveformBinary()
         command = ":DATa:SOUrce CH" + std::to_string(i);
         this->write(const_cast<ViString>(command.c_str()));
         forms.insert(std::pair<int, std::vector<float>>(i,this->ReadWaveform()));
-        printf("Channel %u Done\n",i);
+        //printf("Channel %u Done\n",i);
     }
     
     return forms;

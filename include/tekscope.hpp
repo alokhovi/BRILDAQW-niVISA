@@ -7,7 +7,6 @@
 
 #include "interface.hpp"
 
-int binaryToInteger(boost::dynamic_bitset<> bnNum);
 
 namespace brildaq
 {

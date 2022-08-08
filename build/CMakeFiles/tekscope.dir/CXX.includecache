@@ -21,6 +21,8 @@ stdio.h
 -
 stdlib.h
 -
+boost/dynamic_bitset.hpp
+-
 
 ../include/tekscope.hpp
 map
@@ -56,6 +58,8 @@ fstream
 iterator
 -
 chrono
+-
+stdlib.h
 -
 tekscope.hpp
 /nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
