@@ -58,7 +58,7 @@ namespace brildaq
 
         // This function reads the currently selected waveform and returns
         // it as an array of doubles.
-        virtual std::vector<float>  ReadWaveform() noexcept;
+        virtual std::vector<float> ReadWaveform() noexcept;
         
         virtual ~Interface() { if (_isConnected) disconnect(); }
 

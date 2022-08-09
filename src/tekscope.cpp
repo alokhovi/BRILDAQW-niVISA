@@ -164,7 +164,25 @@ Data TekScope::Dir(const ViString & directory)
 
 Waveform TekScope::readWaveform()
 {
-    return std::make_pair(VI_SUCCESS,boost::none);
+    std::string                         command;
+    std::map<int, std::vector<float>>   allChannels;
+
+    this->write(const_cast<ViString>("acquire:state 0"));
+    this->write(const_cast<ViString>("acquire:stopafter sequence"));
+    this->write(const_cast<ViString>("acquire:state 1"));
+    this->query(const_cast<ViString>("*OPC?"));
+    
+    for(int j = 1; j <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; j++){
+        command = "Data:source CH" + std::to_string(j);
+        this->write(const_cast<ViString>(command.c_str()));
+        allChannels.insert(std::pair<int, std::vector<float>>(j,this->ReadWaveform()));
+        this->query(const_cast<ViString>("*OPC?"));
+    }
+
+    return std::make_pair(VI_SUCCESS, allChannels);
+
+error:
+    return std::make_pair(0,boost::none);
 }
 
 std::map<int, std::vector<float>> TekScope::readWaveformBinary()
@@ -182,14 +200,14 @@ std::map<int, std::vector<float>> TekScope::readWaveformBinary()
     data = this->query(const_cast<ViString>("WFMOUTPre:Byt_NR?"));
     std::cout << data.second << std::endl;
 
-    std::string command;
+    /*std::string command;
     for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
     {
         command = ":DATa:SOUrce CH" + std::to_string(i);
         this->write(const_cast<ViString>(command.c_str()));
         forms.insert(std::pair<int, std::vector<float>>(i,this->ReadWaveform()));
         //printf("Channel %u Done\n",i);
-    }
+    }*/
     
     return forms;
 }
@@ -561,4 +579,21 @@ std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
         //std::cout << form[i] << std::endl;
 
     return form;
+}
+
+std::map<std::string, std::vector<float>> TekScope::zeroCrossingTimes()
+{
+    std::map<std::string, std::vector<float>> times;
+    /*float                                     voltageThreshold;
+
+    scope.write(const_cast<ViString>("acquire:state 0"));
+    scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+    scope.write(const_cast<ViString>("acquire:state 1"));
+
+
+
+    scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
+    scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));*/
+
+    return times;
 }

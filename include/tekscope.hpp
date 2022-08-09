@@ -3,7 +3,6 @@
 
 #include <map>
 #include <chrono>
-#include <boost/dynamic_bitset.hpp>
 
 #include "interface.hpp"
 
@@ -90,6 +89,8 @@ namespace brildaq
         virtual void measureDelays();
 
         virtual std::vector<float> asciiWaveformReadout(std::string channel);
+
+        virtual std::map<std::string, std::vector<float>> zeroCrossingTimes();
 
       public:
 
