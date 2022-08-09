@@ -264,13 +264,11 @@ std::vector<float> Interface::ReadWaveform() noexcept
         form.push_back((((double) _buffer[i]) - yoffset) * ymult);
     }
     
-
+    //reset the changed attribute
     status = viSetAttribute(_instrumentSession, VI_ATTR_TERMCHAR_EN, VI_TRUE);
 
     //status = viFlush(_instrumentSession, VI_WRITE_BUF | VI_READ_BUF_DISCARD);
     //if (status < VI_SUCCESS) goto error;
-
-    //std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     return form;
 
 error:
