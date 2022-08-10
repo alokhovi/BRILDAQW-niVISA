@@ -44,22 +44,6 @@ vector
 visa.h
 -
 
-/nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp
-iostream
--
-cstring
--
-chrono
--
-thread
--
-bitset
--
-interface.hpp
-/nfshome0/jsledgei/brildaq-nivisa/src/interface.hpp
-tekscope.hpp
-/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.hpp
-
 /nfshome0/jsledgei/brildaq-nivisa/src/main.cpp
 iostream
 -

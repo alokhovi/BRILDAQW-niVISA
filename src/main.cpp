@@ -68,9 +68,9 @@ int main()
   brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
   std::cout << data.second << std::endl;
 
-  //scope.resetScope();
-  //scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
-  //scope.write(const_cast<ViString>("HORizontal:POSition 5"));
+  scope.resetScope();
+  scope.baseConfig(scopeCfg.globalParams, scopeCfg.channelConfigurationParameters);
+  scope.write(const_cast<ViString>("HORizontal:POSition 5"));
 
   /*using std::chrono::high_resolution_clock;
   using std::chrono::duration_cast;

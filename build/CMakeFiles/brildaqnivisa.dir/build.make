@@ -124,11 +124,59 @@ CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o.provides: CMakeFiles/brildaqnivi
 
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o.provides.build: CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o
 
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: CMakeFiles/brildaqnivisa.dir/flags.make
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: ../src/tekscopecfg.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.cpp
+
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.cpp > CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.i
+
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.cpp -o CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.s
+
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.requires:
+.PHONY : CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.requires
+
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.provides: CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.requires
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.provides.build
+.PHONY : CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.provides
+
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.provides.build: CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o: CMakeFiles/brildaqnivisa.dir/flags.make
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o: ../src/testBench.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o -c /nfshome0/jsledgei/brildaq-nivisa/src/testBench.cpp
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /nfshome0/jsledgei/brildaq-nivisa/src/testBench.cpp > CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.i
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /nfshome0/jsledgei/brildaq-nivisa/src/testBench.cpp -o CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.s
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.requires:
+.PHONY : CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.requires
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.provides: CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.requires
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.provides.build
+.PHONY : CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.provides
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.provides.build: CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o
+
 # Object files for target brildaqnivisa
 brildaqnivisa_OBJECTS = \
 "CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o" \
 "CMakeFiles/brildaqnivisa.dir/src/main.cpp.o" \
-"CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o"
+"CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o" \
+"CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o" \
+"CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o"
 
 # External object files for target brildaqnivisa
 brildaqnivisa_EXTERNAL_OBJECTS =
@@ -136,6 +184,8 @@ brildaqnivisa_EXTERNAL_OBJECTS =
 libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o
 libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/src/main.cpp.o
 libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o
+libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o
+libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o
 libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/build.make
 libbrildaqnivisa.a: CMakeFiles/brildaqnivisa.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library libbrildaqnivisa.a"
@@ -149,6 +199,8 @@ CMakeFiles/brildaqnivisa.dir/build: libbrildaqnivisa.a
 CMakeFiles/brildaqnivisa.dir/requires: CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o.requires
 CMakeFiles/brildaqnivisa.dir/requires: CMakeFiles/brildaqnivisa.dir/src/main.cpp.o.requires
 CMakeFiles/brildaqnivisa.dir/requires: CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o.requires
+CMakeFiles/brildaqnivisa.dir/requires: CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o.requires
+CMakeFiles/brildaqnivisa.dir/requires: CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o.requires
 .PHONY : CMakeFiles/brildaqnivisa.dir/requires
 
 CMakeFiles/brildaqnivisa.dir/clean:

@@ -592,6 +592,54 @@ src/tekscope.cpp.s:
 	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.s
 .PHONY : src/tekscope.cpp.s
 
+src/tekscopecfg.o: src/tekscopecfg.cpp.o
+.PHONY : src/tekscopecfg.o
+
+# target to build an object file
+src/tekscopecfg.cpp.o:
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o
+.PHONY : src/tekscopecfg.cpp.o
+
+src/tekscopecfg.i: src/tekscopecfg.cpp.i
+.PHONY : src/tekscopecfg.i
+
+# target to preprocess a source file
+src/tekscopecfg.cpp.i:
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.i
+.PHONY : src/tekscopecfg.cpp.i
+
+src/tekscopecfg.s: src/tekscopecfg.cpp.s
+.PHONY : src/tekscopecfg.s
+
+# target to generate assembly for a file
+src/tekscopecfg.cpp.s:
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.s
+.PHONY : src/tekscopecfg.cpp.s
+
+src/testBench.o: src/testBench.cpp.o
+.PHONY : src/testBench.o
+
+# target to build an object file
+src/testBench.cpp.o:
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o
+.PHONY : src/testBench.cpp.o
+
+src/testBench.i: src/testBench.cpp.i
+.PHONY : src/testBench.i
+
+# target to preprocess a source file
+src/testBench.cpp.i:
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.i
+.PHONY : src/testBench.cpp.i
+
+src/testBench.s: src/testBench.cpp.s
+.PHONY : src/testBench.s
+
+# target to generate assembly for a file
+src/testBench.cpp.s:
+	$(MAKE) -f CMakeFiles/brildaqnivisa.dir/build.make CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.s
+.PHONY : src/testBench.cpp.s
+
 test/tekscope_devtest.o: test/tekscope_devtest.cpp.o
 .PHONY : test/tekscope_devtest.o
 
@@ -665,6 +713,12 @@ help:
 	@echo "... src/tekscope.o"
 	@echo "... src/tekscope.i"
 	@echo "... src/tekscope.s"
+	@echo "... src/tekscopecfg.o"
+	@echo "... src/tekscopecfg.i"
+	@echo "... src/tekscopecfg.s"
+	@echo "... src/testBench.o"
+	@echo "... src/testBench.i"
+	@echo "... src/testBench.s"
 	@echo "... test/tekscope_devtest.o"
 	@echo "... test/tekscope_devtest.i"
 	@echo "... test/tekscope_devtest.s"

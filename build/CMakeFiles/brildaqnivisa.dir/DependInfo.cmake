@@ -7,6 +7,8 @@ SET(CMAKE_DEPENDS_CHECK_CXX
   "/nfshome0/jsledgei/brildaq-nivisa/src/interface.cpp" "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o"
   "/nfshome0/jsledgei/brildaq-nivisa/src/main.cpp" "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/src/main.cpp.o"
   "/nfshome0/jsledgei/brildaq-nivisa/src/tekscope.cpp" "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o"
+  "/nfshome0/jsledgei/brildaq-nivisa/src/tekscopecfg.cpp" "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o"
+  "/nfshome0/jsledgei/brildaq-nivisa/src/testBench.cpp" "/nfshome0/jsledgei/brildaq-nivisa/build/CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

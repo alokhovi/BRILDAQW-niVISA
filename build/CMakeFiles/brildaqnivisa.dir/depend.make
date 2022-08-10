@@ -20,3 +20,12 @@ CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o: ../src/tekscope.cpp
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o: /usr/include/ni-visa/visa.h
 CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o: /usr/include/ni-visa/visatype.h
 
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: ../include/interface.hpp
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: ../include/tekscope.hpp
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: ../include/tekscopecfg.hpp
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: ../src/tekscopecfg.cpp
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: /usr/include/ni-visa/visa.h
+CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o: /usr/include/ni-visa/visatype.h
+
+CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o: ../src/testBench.cpp
+
