@@ -174,9 +174,11 @@ Waveform TekScope::readWaveform()
     
     for(int j = 1; j <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; j++){
         command = "Data:source CH" + std::to_string(j);
+        std::cout << "-------- " << command << " --------" << std::endl;
         this->write(const_cast<ViString>(command.c_str()));
         allChannels.insert(std::pair<int, std::vector<float>>(j,this->ReadWaveform()));
         this->query(const_cast<ViString>("*OPC?"));
+        printf("\n");
     }
 
     return std::make_pair(VI_SUCCESS, allChannels);

@@ -192,7 +192,7 @@ std::vector<float> Interface::ReadWaveform() noexcept
     int                   recordLen;
     std::size_t           offset;
     brildaq::nivisa::Data data;
-    //ViUInt32              read;
+    ViUInt32              read;
 
 
     viSetAttribute(_instrumentSession, VI_ATTR_WR_BUF_OPER_MODE, VI_FLUSH_ON_ACCESS);
@@ -204,17 +204,17 @@ std::vector<float> Interface::ReadWaveform() noexcept
 
     // Get record length value
     status = viQueryf(_instrumentSession, "HORizontal:RECOrdlength?\n", "%u", &recordLen);
-    //printf("RecordLen: %u\n",recordLen);
+    printf("RecordLen: %u\n",recordLen);
     if (status < VI_SUCCESS) goto error;
     
     // Get the yoffset to help calculate the vertical values.
     status = viQueryf(_instrumentSession, "WFMOUTPRE:YOFF?\n", "%f", &yoffset);
-    //printf("YOFF: %f\n",yoffset);
+    printf("YOFF: %f\n",yoffset);
     if (status < VI_SUCCESS) goto error;
     
     // Get the byte number of acquisition
     status = viQueryf(_instrumentSession, "WFMOutpre:BYT_NR?\n", "%d", &byt_nr);
-    //printf("BYT_NR: %d\n",byt_nr);
+    printf("BYT_NR: %d\n",byt_nr);
     if (status < VI_SUCCESS) goto error;
 
     // Request n-bit binary data on the curve query
@@ -223,7 +223,7 @@ std::vector<float> Interface::ReadWaveform() noexcept
 
     // Get the ymult to help calculate the vertical values.
     status = viQueryf(_instrumentSession, "WFMOutpre:YMULT?\n", "%f", &ymult);
-    //printf("YMULT: %f\n",ymult);
+    printf("YMULT: %f\n",ymult);
     if (status < VI_SUCCESS) goto error;
 
     //set aqcuisition start and end
@@ -254,9 +254,9 @@ std::vector<float> Interface::ReadWaveform() noexcept
 
     
     //read in Curve
-    //status = viRead(_instrumentSession,(ViBuf)_buffer.get(), recordLen + offset, &read);
-    status = viRead(_instrumentSession,(ViBuf)_buffer.get(), recordLen + offset, VI_NULL);
-    //printf("Points Read: %d\n",read - offset);
+    status = viRead(_instrumentSession,(ViBuf)_buffer.get(), recordLen + offset, &read);
+    //status = viRead(_instrumentSession,(ViBuf)_buffer.get(), recordLen + offset, VI_NULL);
+    printf("Points Read: %d\n",read - offset);
     assert(status == VI_SUCCESS_MAX_CNT);
     
     //transfer curve from buffer to output variabel
