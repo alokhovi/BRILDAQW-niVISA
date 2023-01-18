@@ -14,7 +14,7 @@
 #include <boost/dynamic_bitset.hpp>
 
 int binaryToInteger(boost::dynamic_bitset<> bnNum);
-  
+
 namespace brildaq
 {
     namespace nivisa
@@ -41,7 +41,7 @@ namespace brildaq
         
         ViSession _defaultResourceManager = 0;
 
-        std::unique_ptr<char []>      _buffer;
+	std::unique_ptr<char []>      _buffer;
 
       public:
 
@@ -58,7 +58,7 @@ namespace brildaq
 
         // This function reads the currently selected waveform and returns
         // it as an array of doubles.
-        virtual std::vector<float> ReadWaveform() noexcept;
+        virtual std::vector<float> ReadWaveform(float yoffset) noexcept; //edited by Ren
         
         virtual ~Interface() { if (_isConnected) disconnect(); }
 

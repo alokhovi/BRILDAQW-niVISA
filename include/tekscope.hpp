@@ -39,6 +39,8 @@ namespace brildaq
 
         virtual Waveform readWaveform();
 
+	//virtual std::map<int, std::vector<float>> readWaveform();
+
         virtual std::map<int, std::vector<float>> readWaveformAscii();
 
         virtual std::map<int, std::vector<float>> readWaveformBinary();
@@ -53,6 +55,8 @@ namespace brildaq
 
         std::pair<long, long long> getProfilerStat(const std::string & action) const;
 
+	virtual void  run_scope_calibration();// run scope build-in calibration
+
         virtual ~TekScope();
 
         virtual Data resetScope();//reset the scope to blank settings
@@ -62,6 +66,20 @@ namespace brildaq
         virtual Status channelState(std::string channel, std::string state);//turn on="1" or off="0" a channel 
 
         virtual Status verticalScale(std::string channel, std::string voltsPerDivision);//adjust the vertical scale of a channel
+
+        virtual Data getVerticalScale(std::string channel);//get vertical scale of a channel
+
+	virtual Status verticalPosition(std::string channel, std::string position);//sdjust the position, range is -5.0 to 5.0
+
+virtual Data getVerticalPosition(std::string channel);//get position, range is -5.0 to 5.0
+
+	virtual Status verticalOffset(std::string channel, std::string volts);//adjust the offset, unit is volt
+
+virtual Data getVerticalOffset(std::string channel);//get offset, unit is volt
+
+	virtual Status verticalAutoset(std::string on_off);//whether enable or not
+
+	virtual Status verticalOptimize(std::string resolution, std::string visiility);
 
         virtual Status timeScale(std::string secsPerDivision);//adjust the entire horizontal sclae
 
@@ -84,13 +102,22 @@ namespace brildaq
 
         virtual std::string getForm(std::string channel, std::string byteNum, std::string start, std::string stop);
 
+  	//add by Ren
+	virtual std::string getFormAscii(std::string channel, std::string byteNum, std::string start, std::string stop);
+
         virtual std::vector<std::string> getMeasurementResults(std::string measurementID);
 
         virtual void measureDelays();
 
         virtual std::vector<float> asciiWaveformReadout(std::string channel);
 
-        virtual std::map<std::string, std::vector<float>> zeroCrossingTimes();
+	//add by Ren
+	virtual void gain_optimizer(double occupancy); 
+
+	virtual Status pause(float second);
+
+	//add by jae
+	virtual std::map<std::string, std::vector<float>> zeroCrossingTimes();
 
       public:
 
@@ -109,7 +136,12 @@ namespace brildaq
         std::map<std::string, std::chrono::milliseconds> _beginning;
 
         void rebin(const std::string & action, std::chrono::milliseconds readoutTime);
+       
       };
     }
 }
+
+// add by Ren
+std::vector<int> str_vec(std::string form);
+
 #endif  

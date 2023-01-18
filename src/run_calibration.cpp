@@ -52,6 +52,10 @@ int main()
  scopeCfg.globalParams.TRIGSOURCE[0] = "8";
  scopeCfg.globalParams.TRIGSOURCE[1] = "-0.440";
  
+  // scope.triggerType("edge");
+  // scope.triggerSlopeType("Rise");
+  // scope.setTriggerLevel(channel, "-0.440");
+
   auto & cc = scopeCfg.connectionParameters;
 
   brildaq::nivisa::Status status = scope.connect(const_cast<ViString>(cc.connectionString.c_str()),cc.timeout,cc.exclusiveLock);
@@ -60,23 +64,10 @@ int main()
     {
       std::cout << "Connection failed: " << status.second << std::endl; return -1;
     }
-  brildaq::nivisa::Data data;
-
-  status = scope.write(const_cast<ViString>("TRIGger:A:MODe Auto"));
-  status = scope.write(const_cast<ViString>("TRIGger:A:HOLDoff:BY TIMe"));
-  status = scope.write(const_cast<ViString>("TRIGger:A:HOLDoff:TIMe 1"));
-  data = scope.query( const_cast<ViString>("TRIGger:STATE?") );
-  std::cout << data.second << std::endl;
-
-  data = scope.query( const_cast<ViString>("BUSY?") );
-  if (data.second != "0")
-    {
-      std::cout << "tekscope is busy" << std::endl;
-    }
-  std::cout << data.second << std::endl;
 
 
-  data = scope.query( const_cast<ViString>("*IDN?") );
+
+  brildaq::nivisa::Data data = scope.query( const_cast<ViString>("*IDN?") );
   std::cout << data.second << std::endl;
 
   scope.resetScope();
@@ -85,38 +76,9 @@ int main()
   status = scope.write(const_cast<ViString>("acquire:state 0"));
   status = scope.write(const_cast<ViString>("acquire:stopafter sequence"));
   status = scope.write(const_cast<ViString>("acquire:state 1"));
-  
-  using std::chrono::high_resolution_clock;
-  using std::chrono::duration_cast;
-  using std::chrono::duration;
-  using std::chrono::milliseconds;
-  double occupancy = 0.80;
-  duration<double, std::milli> ms_double;
-  auto t1 = high_resolution_clock::now();
-  auto t2 = high_resolution_clock::now();
 
-  std::ofstream Outfile;
-  std::string filename = "aqTimeData/gain_optimizer.txt" ;
-  Outfile.open(filename);
+  scope.run_scope_calibration();  
 
-  int end = 5000;
-
-  for (int i=0; i<end; ++i)\
-    {
-      status = scope.write(const_cast<ViString>("ACQuire:STATE ON"));
-      data = scope.query( const_cast<ViString>("ACQuire:STATE?") );
-
-      if(((i+1) % 10) == 0) std::cout << std::to_string((double)(i+1)*100/end) << "%" << std::endl;
-      t1 = high_resolution_clock::now();
-      scope.gain_optimizer(occupancy); // optimizing gain and offset
-      t2 = high_resolution_clock::now();
-      ms_double = t2 - t1;
-
-      Outfile << std::to_string(ms_double.count()) << std::endl;  
-      std::cout << std::to_string(ms_double.count()) << "ms" << std::endl;
-    }
-
-  Outfile.close();
   scope.disconnect();
 
   return 0;

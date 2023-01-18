@@ -5,6 +5,9 @@
 #include <string>
 #include <thread>
 #include <sstream>
+#include <cmath>
+#include <vector>
+#include <regex>
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
@@ -163,55 +166,79 @@ Data TekScope::Dir(const ViString & directory)
 }
 
 Waveform TekScope::readWaveform()
+//std::map<int, std::vector<float>> TekScope::readWaveform()
 {
-    std::string                         command;
-    std::map<int, std::vector<float>>   allChannels;
 
-    this->write(const_cast<ViString>("acquire:state 0"));
-    this->write(const_cast<ViString>("acquire:stopafter sequence"));
-    this->write(const_cast<ViString>("acquire:state 1"));
-    this->query(const_cast<ViString>("*OPC?"));
+  std::string                         command;
+  brildaq::nivisa::Data   data;
+  std::map<int, std::vector<float>>   allChannels;
+  float yoffset;
+
+  this->write(const_cast<ViString>("acquire:state 0"));
+  this->write(const_cast<ViString>("acquire:stopafter sequence"));
+  this->write(const_cast<ViString>("acquire:state 1"));
+  this->query(const_cast<ViString>("*OPC?"));
     
-    for(int j = 1; j <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; j++){
-        command = "Data:source CH" + std::to_string(j);
-        std::cout << "-------- " << command << " --------" << std::endl;
-        this->write(const_cast<ViString>(command.c_str()));
-        allChannels.insert(std::pair<int, std::vector<float>>(j,this->ReadWaveform()));
-        this->query(const_cast<ViString>("*OPC?"));
-        printf("\n");
-    }
+  for(int j = 1; j <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; j++){
+     command = "Data:source CH" + std::to_string(j);
+    // std::cout << "-------- " << command << " --------" << std::endl;
+    this->write(const_cast<ViString>(command.c_str()));
 
-    return std::make_pair(VI_SUCCESS, allChannels);
+    command = "CH" + std::to_string(j) + ":OFFSet?";
+    data = this->query( const_cast<ViString>(command.c_str()));
+    yoffset = std::stof(data.second);
+    //yoffset = 0.0;
+    allChannels.insert(std::pair<int, std::vector<float>>(j,this->ReadWaveform(yoffset)));//edited by Ren
+    this->query(const_cast<ViString>("*OPC?"));
+    printf("\n");
+  }
 
-error:
-    return std::make_pair(0,boost::none);
+ //  for (const auto& n : allChannels)     
+ //    {  
+ // std::cout << n.first << " = ";                                           
+ //      for (int i=0; i<n.second.size(); ++i)    
+ //     {                                  
+ //       std::cout << n.second[i] << ",";               
+ //     }                                                            
+ //      std::cout << '\n';                      
+ //    }              
+ //  std::cout << '\n';        
+	
+  return std::make_pair(VI_SUCCESS, allChannels);
+
+  //return allChannels;
+
+  error:
+  return std::make_pair(0,boost::none);
+
 }
 
 std::map<int, std::vector<float>> TekScope::readWaveformBinary()
 {
-    std::map<int, std::vector<float>>   forms;
-    //brildaq::nivisa::Status             status;
-    brildaq::nivisa::Data               data;
+  std::map<int, std::vector<float>>   forms;
+  //brildaq::nivisa::Status             status;
+  brildaq::nivisa::Data               data;
 
-    this->write(const_cast<ViString>("acquire:state 0"));
+  this->write(const_cast<ViString>("acquire:state 0"));
 
-    this->write(const_cast<ViString>("acquire:stopafter sequence"));
+  this->write(const_cast<ViString>("acquire:stopafter sequence"));
 
-    this->write(const_cast<ViString>("acquire:state 1"));
+  this->write(const_cast<ViString>("acquire:state 1"));
 
-    data = this->query(const_cast<ViString>("WFMOUTPre:Byt_NR?"));
-    std::cout << data.second << std::endl;
+  data = this->query(const_cast<ViString>("WFMOUTPre:Byt_NR?"));
+  std::cout << data.second << std::endl;
 
-    /*std::string command;
+  /*std::string command;
     for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
     {
         command = ":DATa:SOUrce CH" + std::to_string(i);
         this->write(const_cast<ViString>(command.c_str()));
         forms.insert(std::pair<int, std::vector<float>>(i,this->ReadWaveform()));
         //printf("Channel %u Done\n",i);
-    }*/
+	}*/
     
-    return forms;
+  return forms;
+
 }
 
 std::map<int, std::vector<float>> TekScope::readWaveformAscii()
@@ -282,6 +309,49 @@ Status TekScope::verticalScale(std::string channel, std::string voltsPerDivision
 {
     std::string command = "DISplay:WAVEView1:CH" + channel + ":VERTical:SCAle " + voltsPerDivision;
     return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Data TekScope::getVerticalScale(std::string channel)
+{
+    std::string command = "DISplay:WAVEView1:CH" + channel + ":VERTical:SCAle?";
+    return this->query( const_cast<ViString>(command.c_str()));
+}
+
+
+Status TekScope::verticalPosition(std::string channel, std::string position)
+{
+  std::string command = "DISplay:WAVEView1:CH" + channel + ":VERTical:POSition " + position;
+  return this->write( const_cast<ViString>(command.c_str()));
+ }
+
+Data TekScope::getVerticalPosition(std::string channel)
+{
+  std::string command = "DISplay:WAVEView1:CH" + channel + ":VERTical:POSition?";
+  return this->query( const_cast<ViString>(command.c_str()));
+ }
+
+Status TekScope::verticalOffset(std::string channel, std::string volts)
+{
+  std::string command = "CH" + channel + ":OFFSet " + volts;
+  return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Data TekScope::getVerticalOffset(std::string channel)
+{
+  std::string command = "CH" + channel + ":OFFSet?";
+  return this->query( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::verticalAutoset(std::string on_off)
+{
+  std::string command = "AUTOSet:VERTical:ENAble" + on_off;
+  return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::verticalOptimize(std::string resolution, std::string visibility)
+{
+  std::string command = "AUTOSet:VERTical:OPTIMize" + resolution + visibility;
+  return this->write( const_cast<ViString>(command.c_str()));
 }
 
 Status TekScope::timeScale(std::string secsPerDivision)
@@ -444,7 +514,7 @@ std::string TekScope::getForm(std::string channel, std::string byteNum, std::str
     this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY")); //set binary encoding format
     this->write(const_cast<ViString>(":HEADer 0")); //turn off headers
 
-    command = ":WFMOutpre:BYT_Nr " + byteNum; //set end point of data collection
+    command = ":WFMOutpre:BYT_Nr " + byteNum; 
     this->write(const_cast<ViString>(command.c_str()));
     /*
     command = ":HORIZONTAL:MODE MANUAL"; //set end point of data collection
@@ -460,6 +530,7 @@ std::string TekScope::getForm(std::string channel, std::string byteNum, std::str
 
     data = this->query(":CURVE?");
     std::string form = data.second;
+
     this->write(const_cast<ViString>(":HEADer 1")); //turn headers back on
     return form;
 }
@@ -470,6 +541,15 @@ std::vector<std::string> TekScope::getMeasurementResults(std::string measurement
     brildaq::nivisa::Status status;
     brildaq::nivisa::Data   data;
     std::string command;
+
+    std::string start = "1";
+    std::string stop = "100";
+
+    command = ":DATa:START " + start; //set start point for data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:STOP " + stop; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));
 
     command = "MEASUrement:MEAS" + measurementID + ":RESUlts:ALLAcqs:";
 
@@ -488,6 +568,24 @@ std::vector<std::string> TekScope::getMeasurementResults(std::string measurement
 
     data = this->query(const_cast<ViString>((command + "POPUlation?").c_str())); //get population
     measurementValues.push_back(data.second);
+
+    command = "MEASUrement:MEAS" + measurementID + ":RESUlts:CURRentacq:";
+
+    data = this->query(const_cast<ViString>((command + "MEAN?").c_str())); //get the mean
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "STDdev?").c_str())); //get std
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "MAXimum?").c_str())); //get max value
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "MINimum?").c_str())); //get min value
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "POPUlation?").c_str())); //get population
+    measurementValues.push_back(data.second);
+
 
     return measurementValues;
 }
@@ -583,10 +681,18 @@ std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
     return form;
 }
 
+Status TekScope::pause(float second)
+{
+  std::cout << "===== pause =====" << std::endl; 
+  std::string command = "PAUSe " + std::to_string(second);
+  return this->write(const_cast<ViString>(command.c_str()));
+}
+//add by jae
+
 std::map<std::string, std::vector<float>> TekScope::zeroCrossingTimes()
 {
-    std::map<std::string, std::vector<float>> times;
-    /*float                                     voltageThreshold;
+  std::map<std::string, std::vector<float>> times;
+  /*float                                     voltageThreshold;
 
     scope.write(const_cast<ViString>("acquire:state 0"));
     scope.write(const_cast<ViString>("acquire:stopafter sequence"));
@@ -597,5 +703,5 @@ std::map<std::string, std::vector<float>> TekScope::zeroCrossingTimes()
     scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
     scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));*/
 
-    return times;
+  return times;
 }
