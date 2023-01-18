@@ -2,10 +2,13 @@
 #include <fstream>
 #include <numeric>
 #include <cstring>
+#include <string>
 #include <thread>
+#include <sstream>
 
 #include "tekscope.hpp"
 using namespace brildaq::nivisa;
+//#define MAX_CNT1 1000
 
 void TekScope::startProfiler(const std::string & action)
 {
@@ -147,11 +150,6 @@ Status TekScope::wait(std::chrono::milliseconds timeout) noexcept
     return std::make_pair(VI_ERROR_RSRC_BUSY,std::string("The scope is still busy afeter timeout"));
 }
 
-Waveform TekScope::readWaveform()
-{
-    return std::make_pair(VI_SUCCESS,boost::none);
-}
-
 Data TekScope::Dir(const ViString & directory)
 {
     auto data = query(const_cast<ViString>("FILESystem:CWD?"));
@@ -164,7 +162,440 @@ Data TekScope::Dir(const ViString & directory)
     return std::make_pair(VI_SUCCESS,"");
 }
 
+Waveform TekScope::readWaveform()
+{
+    std::string                         command;
+    std::map<int, std::vector<float>>   allChannels;
+
+    this->write(const_cast<ViString>("acquire:state 0"));
+    this->write(const_cast<ViString>("acquire:stopafter sequence"));
+    this->write(const_cast<ViString>("acquire:state 1"));
+    this->query(const_cast<ViString>("*OPC?"));
+    
+    for(int j = 1; j <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; j++){
+        command = "Data:source CH" + std::to_string(j);
+        std::cout << "-------- " << command << " --------" << std::endl;
+        this->write(const_cast<ViString>(command.c_str()));
+        allChannels.insert(std::pair<int, std::vector<float>>(j,this->ReadWaveform()));
+        this->query(const_cast<ViString>("*OPC?"));
+        printf("\n");
+    }
+
+    return std::make_pair(VI_SUCCESS, allChannels);
+
+error:
+    return std::make_pair(0,boost::none);
+}
+
+std::map<int, std::vector<float>> TekScope::readWaveformBinary()
+{
+    std::map<int, std::vector<float>>   forms;
+    //brildaq::nivisa::Status             status;
+    brildaq::nivisa::Data               data;
+
+    this->write(const_cast<ViString>("acquire:state 0"));
+
+    this->write(const_cast<ViString>("acquire:stopafter sequence"));
+
+    this->write(const_cast<ViString>("acquire:state 1"));
+
+    data = this->query(const_cast<ViString>("WFMOUTPre:Byt_NR?"));
+    std::cout << data.second << std::endl;
+
+    /*std::string command;
+    for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
+    {
+        command = ":DATa:SOUrce CH" + std::to_string(i);
+        this->write(const_cast<ViString>(command.c_str()));
+        forms.insert(std::pair<int, std::vector<float>>(i,this->ReadWaveform()));
+        //printf("Channel %u Done\n",i);
+    }*/
+    
+    return forms;
+}
+
+std::map<int, std::vector<float>> TekScope::readWaveformAscii()
+{
+    std::map<int, std::vector<float>> forms;
+    brildaq::nivisa::Status status;
+
+    status = this->write(const_cast<ViString>("acquire:state 0"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "state 0 error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>("acquire:stopafter sequence"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "stopafter error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>("acquire:state 1"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "state 1 error" << std::endl;
+    }
+
+    //forms.insert(std::pair<int, std::vector<float>>(4,this->asciiWaveformReadout("4")));
+    for(int i = 1; i <= brildaq::nivisa::NM_OF_TEKSCOPE_CHANNELS; i++)
+    {
+        forms.insert(std::pair<int, std::vector<float>>(i,this->asciiWaveformReadout(std::to_string(i))));
+    }
+    
+    return forms;
+}
+
 TekScope::~TekScope()
 {
 
+}
+
+/*
+The following methods all send commands or queries to the scope for their given task
+they return the relevant datatype
+*/
+
+Data TekScope::resetScope()
+{
+    brildaq::nivisa::Data data = this->query(const_cast<ViString>("*RST;:*OPC?"));
+    this->terminateChannels();
+    return data;
+}
+
+Status TekScope::terminateChannels()
+{
+    std::string command;
+    brildaq::nivisa::Status status;
+    for(int i = 0; i < NM_OF_TEKSCOPE_CHANNELS; i++)//ensure 50OHM termination for all scopes
+    {
+        command = "CH" + std::to_string(i+1) + ":TERMINATION 50";
+        status = this->write(const_cast<ViString>(command.c_str()));
+    }
+    return status;
+}
+
+Status TekScope::channelState(std::string channel, std::string state)
+{
+    std::string command = "DISPLAY:WAVEVIEW1:CH" + channel + ":STATE " + state;
+    return this->write( const_cast<ViString>(command.c_str()) );
+}
+
+Status TekScope::verticalScale(std::string channel, std::string voltsPerDivision)
+{
+    std::string command = "DISplay:WAVEView1:CH" + channel + ":VERTical:SCAle " + voltsPerDivision;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::timeScale(std::string secsPerDivision)
+{
+    std::string command = "HORizontal:SCAle " + secsPerDivision;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::triggerType(std::string type)
+{
+    std::string command = ":TRIGger:A:TYPe " + type;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::triggerSource(std::string channel)
+{
+    std::string command = ":TRIGger:A:EDGE:SOUrce CH" + channel;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::triggerSlopeType(std::string type)
+{
+    std::string command = ":TRIGger:A:EDGE:SLOpe " + type;
+    return this->write( const_cast<ViString>(command.c_str()));
+}
+
+Status TekScope::setHalfTrigger()
+{
+    return this->write( const_cast<ViString>(":TRIGger:A SETLevel") );
+}
+
+Status TekScope::setTriggerLevel(std::string channel, std::string voltageLevel)
+{
+    std::string command = ":TRIGger:A:LEVEL:CH" + channel + " " + voltageLevel;
+    return this->write( const_cast<ViString>(command.c_str()) );
+}
+
+Data TekScope::checkReady()
+{
+    return this->query( const_cast<ViString>("*OPC?") );
+}
+
+Status TekScope::baseConfig(GlobalConfigurationParams globalParams, ChannelConfiguration channelConfigurationParameters[])
+{
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+
+    data = this->resetScope();//reset the scope
+
+    for(int i = 0; i < NM_OF_TEKSCOPE_CHANNELS; i++){
+        if(channelConfigurationParameters[i].ONOFF){
+            std::string channel = std::to_string(channelConfigurationParameters[i].ID); //get the channel# from the ID
+            status = this->channelState(channel,"1");
+            status = this->verticalScale(channel,channelConfigurationParameters[i].VSCALE);
+        }
+        else if(i==0 && !channelConfigurationParameters[i].ONOFF){//turn off the first channel if needed
+            status = this->channelState(std::to_string(channelConfigurationParameters[i].ID),"0");
+        }
+    }
+
+    status = this->timeScale(globalParams.TSCALE);
+    status = this->triggerType(globalParams.TRIGTYPE);
+    status = this->triggerSource(globalParams.TRIGSOURCE[0]);
+    status = this->triggerSlopeType(globalParams.SLOPETYPE);
+    status = this->setTriggerLevel(globalParams.TRIGSOURCE[0],globalParams.TRIGSOURCE[1]);
+    data = this->checkReady();
+
+    return status; /*this is a bad return value*/
+}
+
+std::string TekScope::binIn()
+{
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+    /*
+    static unsigned char  strres [6263];
+    static ViStatus stat;
+    static ViSession defaultRM, vi;
+    static ViUInt32 retCount;
+    static ViUInt32 actual;
+
+    viOpenDefaultRM(&defaultRM);
+    viSetAttribute (defaultRM, VI_ATTR_TMO_VALUE,1600);
+    viOpen(defaultRM,"TCPIP::10.176.62.25::INSTR",VI_NULL,VI_NULL,&vi);
+    viSetAttribute (vi, VI_ATTR_TMO_VALUE,100);*/
+
+    //this->write(const_cast<ViString>("SELECT:CH1 ON"));
+    //this->write(const_cast<ViString>("SELECT:CH4 ON"));
+    this->channelState("4","1");
+    data = this->query(const_cast<ViString>(":DATa:SOUrce:AVAILable?"));
+    std::cout << "Data Source Available: " << data.second << std::endl;
+    this->write(const_cast<ViString>(":DATa:SOUrce CH4"));
+
+    //this->timeScale("0.5");
+    data = this->query(const_cast<ViString>(":HORizontal:MODE?"));
+    std::cout << "HORIZ MODE: " << data.second << std::endl;
+    data = this->query(const_cast<ViString>(":HORizontal:RECOrdlength?"));
+    std::cout << "HORIZ MODE LENGTH: " << data.second << std::endl;
+
+    this->write(const_cast<ViString>(":DATa:START 1"));
+    //this->write(const_cast<ViString>(":DATa:STOP 6250"));
+    this->write(const_cast<ViString>(":DATa:STOP 1250"));
+    this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY"));
+    this->write(const_cast<ViString>(":WFMOutpre:BYT_Nr 1"));
+    //data = this->query(const_cast<ViString>("WFMOutpre:BIT_Nr?"));
+    //std::cout << "BITS: " << data.second << std::endl;
+    this->write(const_cast<ViString>(":HEADer 1"));
+    this->write(const_cast<ViString>(":VERBOSE 1"));
+    data = this->query(const_cast<ViString>(":WFMOutpre?"));
+    std::cout << data.second << std::endl;
+
+    
+    //viWrite(vi, (ViBuf)":CURVE?",8, &actual);
+    //viRead(vi,strres, 7000,  &retCount);
+    //printf("%s\n ", strres);
+    
+
+    /*for(int i=14;i<6250;i++){
+      if((int)strres[i] != 0 && (int)strres[i] != 1 && (int)strres[i] != 255){
+        std::cout << std::bitset<8>(strres[i]) << " ------ " << (int)strres[i] << " ------ " << i << std::endl;
+        }
+      //std::cout << (int)strres[i] << std::endl;
+    }*/
+
+    data = this->query(":CURVE?");
+    std::string temp = data.second;
+    //std::cout << data.second[0] << std::endl;
+    for(int i=14;i<1250;i++){
+      /*if((int)temp[i] != 0 && (int)temp[i] != 1 && (int)temp[i] != 255){
+        std::cout << std::bitset<8>(temp[i]) << " ------ " << (int)temp[i] << " ------ " << i << std::endl;
+        }*/
+      std::cout << (int)temp[i] << std::endl;
+    }
+
+    //std::string temp = std::string(strres);
+    //std::cout << temp << std::endl;
+
+    return temp;
+
+}
+
+std::string TekScope::getForm(std::string channel, std::string byteNum, std::string start, std::string stop)
+{
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+    std::string command;
+
+    command = "SELECT:CH" + channel + " ON"; //turn on channel
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:SOUrce CH" + channel; //turn on channel
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:START " + start; //set start point for data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    command = ":DATa:STOP " + stop; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));
+
+    this->write(const_cast<ViString>(":WFMOutpre:ENCdg BINARY")); //set binary encoding format
+    this->write(const_cast<ViString>(":HEADer 0")); //turn off headers
+
+    command = ":WFMOutpre:BYT_Nr " + byteNum; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));
+    /*
+    command = ":HORIZONTAL:MODE MANUAL"; //set end point of data collection
+    this->write(const_cast<ViString>(command.c_str()));*/
+
+    //data = this->query(const_cast<ViString>(":WFMOutpre:BYT_Nr?"));
+    /*
+    this->write(const_cast<ViString>("acquire:state 0"));
+    this->write(const_cast<ViString>("acquire:stopafter SEQUENCE"));
+    this->write(const_cast<ViString>("acquire:state 1"));
+    this->query("*OPC?");
+    */
+
+    data = this->query(":CURVE?");
+    std::string form = data.second;
+    this->write(const_cast<ViString>(":HEADer 1")); //turn headers back on
+    return form;
+}
+
+std::vector<std::string> TekScope::getMeasurementResults(std::string measurementID) //get the Mean,STD,Max,Min, and pop of a measurement
+{
+    std::vector<std::string> measurementValues; //vector to store the measurements
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data   data;
+    std::string command;
+
+    command = "MEASUrement:MEAS" + measurementID + ":RESUlts:ALLAcqs:";
+
+    this->write(const_cast<ViString>("HEADER 0"));
+    data = this->query(const_cast<ViString>((command + "MEAN?").c_str())); //get the mean
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "STDdev?").c_str())); //get std
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "MAXimum?").c_str())); //get max value
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "MINimum?").c_str())); //get min value
+    measurementValues.push_back(data.second);
+
+    data = this->query(const_cast<ViString>((command + "POPUlation?").c_str())); //get population
+    measurementValues.push_back(data.second);
+
+    return measurementValues;
+}
+
+void TekScope::measureDelays()//turn on delay measurements
+{
+    brildaq::nivisa::Data data;
+    this->write(const_cast<ViString>("HEADER 0"));
+
+    this->write(const_cast<ViString>("MEASUrement:ADDMEAS DELAY"));
+    this->write(const_cast<ViString>("MEASUrement:MEAS1:SOUrce CH3"));
+    this->write(const_cast<ViString>("MEASUrement:MEAS1:SOUrce2 CH4"));
+    std::cout << data.second << std::endl;
+    return;
+}
+
+std::vector<float> TekScope::asciiWaveformReadout(std::string channel)
+{
+    std::vector<float> form; //this will hold the waveform of individual channel
+    brildaq::nivisa::Status status;
+    brildaq::nivisa::Data data;
+
+    std::string command = ":Data:Source CH" + channel;
+    status = this->write(const_cast<ViString>(command.c_str()));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Data source error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>(":Header 0"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Header error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>(":Data:Start 1"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Data start error" << std::endl;
+    }
+
+    data = this->query(const_cast<ViString>("HORizontal:RECOrdlength?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "Record length error" << std::endl;
+    }
+
+    command = ":Data:Stop " + data.second;
+    status = this->write(const_cast<ViString>(command.c_str()));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Data stop error" << std::endl;
+    }
+
+    status = this->write(const_cast<ViString>(":WFMOutpre:ENCdg Ascii"));
+    if(status.first < VI_SUCCESS){
+        std::cout << "Encoding error" << std::endl;
+    }
+
+    command = "DISplay:WAVEView1:CH" + channel + ":VERTical:SCAle?";
+    data = this->query(const_cast<ViString>(command.c_str()));
+    if(data.first < VI_SUCCESS){
+        std::cout << "Scale query error" << std::endl;
+    }
+    float verticalScale = std::stof(data.second); //save the vertical scale
+    
+    /*
+    data = this->query(const_cast<ViString>(":WFMOutpre?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "Outpre error" << std::endl;
+    }
+    else{
+        std::cout << data.second << std::endl;
+    }*/
+
+    data = this->query(const_cast<ViString>("*OPC?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "OPC error" << std::endl;
+    }
+
+    data = this->query(const_cast<ViString>(":CURVE?"));
+    if(data.first < VI_SUCCESS){
+        std::cout << "curve error" << std::endl;
+    }
+    
+    //std::vector<int> vect;
+    std::stringstream ss(data.second);
+
+    for (int i; ss >> i;) {
+        form.push_back((float)i * verticalScale * 5 / 32767); //convert to voltage value    
+        if (ss.peek() == ',')
+            ss.ignore();
+    }
+
+    //for(std::size_t i = 0; i < form.size(); i++)
+        //std::cout << form[i] << std::endl;
+
+    return form;
+}
+
+std::map<std::string, std::vector<float>> TekScope::zeroCrossingTimes()
+{
+    std::map<std::string, std::vector<float>> times;
+    /*float                                     voltageThreshold;
+
+    scope.write(const_cast<ViString>("acquire:state 0"));
+    scope.write(const_cast<ViString>("acquire:stopafter sequence"));
+    scope.write(const_cast<ViString>("acquire:state 1"));
+
+
+
+    scope.write(const_cast<ViString>("ACQUIRE:STOPAFTER RUNSTOP"));
+    scope.write(const_cast<ViString>("ACQUIRE:STATE ON"));*/
+
+    return times;
 }

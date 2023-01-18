@@ -6,6 +6,7 @@
 
 #include "interface.hpp"
 
+
 namespace brildaq
 {
     namespace nivisa
@@ -15,8 +16,18 @@ namespace brildaq
       struct ChannelConfiguration
       {
           uint8_t     ID; /* 1-8 */
-          bool        ONOFF;
-          std::string name;
+          bool        ONOFF; //select channel on off
+          std::string VSCALE; //set vertical scale of channel
+          std::string name; //name of channel
+      };
+
+      struct GlobalConfigurationParams
+      {
+          std::string TSCALE = "1"; //time scale in secs/division
+          std::string TRIGTYPE = "EDGE"; //trigger type
+          std::string SLOPETYPE = "FALL"; //slope fall type
+          std::string TRIGSOURCE[2] = {"8","-1"}; //default trigger source on ORBITMAIN
+
       };
 
       class TekScope : public Interface
@@ -27,6 +38,10 @@ namespace brildaq
         void desableProfiling() { _profilingEnabled = false; }
 
         virtual Waveform readWaveform();
+
+        virtual std::map<int, std::vector<float>> readWaveformAscii();
+
+        virtual std::map<int, std::vector<float>> readWaveformBinary();
 
         Data Dir(const ViString & directory = nullptr);
 
@@ -39,6 +54,43 @@ namespace brildaq
         std::pair<long, long long> getProfilerStat(const std::string & action) const;
 
         virtual ~TekScope();
+
+        virtual Data resetScope();//reset the scope to blank settings
+        
+        virtual Status terminateChannels(); //set 50 OHM terminations on all of the channels 
+
+        virtual Status channelState(std::string channel, std::string state);//turn on="1" or off="0" a channel 
+
+        virtual Status verticalScale(std::string channel, std::string voltsPerDivision);//adjust the vertical scale of a channel
+
+        virtual Status timeScale(std::string secsPerDivision);//adjust the entire horizontal sclae
+
+        virtual Status triggerType(std::string type);//select trigger type ("EDGE" typically)
+
+        virtual Status triggerSource(std::string channel);//select the channel source for the A trigger
+
+        virtual Status triggerSlopeType(std::string type);//select "RISE" or "FALL"(ing) edge for the trigger
+
+        virtual Status setHalfTrigger(); //set the trigger level to 50%
+
+        virtual Status setTriggerLevel(std::string channel, std::string voltageLevel); //set trigger voltage cutoff "LOW" or "UPP"
+        
+        virtual Data checkReady(); //wait for scope to finish all past commands
+
+        virtual Status baseConfig(GlobalConfigurationParams globalParams, ChannelConfiguration channelConfigurationParameters[]); 
+        //setup the scope to the base configuration parameters
+
+        virtual std::string binIn();
+
+        virtual std::string getForm(std::string channel, std::string byteNum, std::string start, std::string stop);
+
+        virtual std::vector<std::string> getMeasurementResults(std::string measurementID);
+
+        virtual void measureDelays();
+
+        virtual std::vector<float> asciiWaveformReadout(std::string channel);
+
+        virtual std::map<std::string, std::vector<float>> zeroCrossingTimes();
 
       public:
 

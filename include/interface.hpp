@@ -7,6 +7,13 @@
 #include <memory>
 #include <vector>
 #include <visa.h>
+//#include <assert.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <boost/dynamic_bitset.hpp>
+
+int binaryToInteger(boost::dynamic_bitset<> bnNum);
   
 namespace brildaq
 {
@@ -17,6 +24,8 @@ namespace brildaq
       constexpr  uint16_t  MAX_NUMBER_OF_QUERY_TRIES = 4;
 
       constexpr  uint8_t   LINEFEED_CHAR             = '\n';
+
+      const auto NM_OF_TEKSCOPE_CHANNELS = 8;
 
       using Status = std::pair<ViStatus,boost::optional<std::string> >;
 
@@ -39,12 +48,17 @@ namespace brildaq
         Interface();
 
         virtual Status   connect(const ViString & resource, ViAttrState timeout, bool exclusiveLock = false) noexcept;
+        //connect to the scope through the Nivisa protocol
         
-        virtual void     disconnect() noexcept;
+        virtual void     disconnect() noexcept; //disconnect from the scope
         
-        virtual Data     query(const ViString & command) noexcept;
+        virtual Data     query(const ViString & command) noexcept; //send query to scope and return response
 
-        virtual Status   write(const ViString & command) noexcept;
+        virtual Status   write(const ViString & command) noexcept; //send command to scope
+
+        // This function reads the currently selected waveform and returns
+        // it as an array of doubles.
+        virtual std::vector<float> ReadWaveform() noexcept;
         
         virtual ~Interface() { if (_isConnected) disconnect(); }
 
