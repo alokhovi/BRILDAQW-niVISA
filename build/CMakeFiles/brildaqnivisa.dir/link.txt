@@ -1,2 +1,0 @@
-/usr/bin/ar cr libbrildaqnivisa.a  CMakeFiles/brildaqnivisa.dir/src/interface.cpp.o CMakeFiles/brildaqnivisa.dir/src/main.cpp.o CMakeFiles/brildaqnivisa.dir/src/tekscope.cpp.o CMakeFiles/brildaqnivisa.dir/src/tekscopecfg.cpp.o CMakeFiles/brildaqnivisa.dir/src/testBench.cpp.o
-/usr/bin/ranlib libbrildaqnivisa.a
