@@ -12,7 +12,7 @@ pages:
     - doxygen doxygen/Doxyfile
     - mv doxygen/documentation/html/ public/
     - doxygen doxygen/Doxyfile
-    - mv doxygen/documentation/html/ public/0.1.0/
+    - mv doxygen/documentation/html/ public/@BRILDAQNIVISA_MAJOR_VERSION@.@BRILDAQNIVISA_MINOR_VERSION@.@BRILDAQNIVISA_PATCH_VERSION@/
   artifacts:
     paths:
       # The folder that contains the files to be exposed at the Page URL

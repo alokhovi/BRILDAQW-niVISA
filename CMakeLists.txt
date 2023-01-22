@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -36,7 +36,11 @@ find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
 file(GLOB SOURCES "src/*.cpp")
 
+# We generate now the files where a version number is substituted from the config file config/vesrion.txt
+
 configure_file("${PROJECT_SOURCE_DIR}/config/version.h.in" "${PROJECT_SOURCE_DIR}/include/version.hpp" @ONLY)
+configure_file("${PROJECT_SOURCE_DIR}/doxygen/Doxyfile.in" "${PROJECT_SOURCE_DIR}/doxygen/Doxyfile" @ONLY)
+configure_file("${PROJECT_SOURCE_DIR}/.gitlab-ci.yml.in" "${PROJECT_SOURCE_DIR}/.gitlab-ci.yml" @ONLY)
 
 include(CTest) 
 
