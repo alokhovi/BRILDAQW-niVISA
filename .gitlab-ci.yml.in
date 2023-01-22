@@ -11,8 +11,10 @@ pages:
   script:
     - doxygen doxygen/Doxyfile
     - mv doxygen/documentation/html/ public/
+    - echo "Documentation is deployed for the current library version."
     - doxygen doxygen/Doxyfile
     - mv doxygen/documentation/html/ public/@BRILDAQNIVISA_MAJOR_VERSION@.@BRILDAQNIVISA_MINOR_VERSION@.@BRILDAQNIVISA_PATCH_VERSION@/
+    - echo "Documentation is deployed for the library version @BRILDAQNIVISA_MAJOR_VERSION@.@BRILDAQNIVISA_MINOR_VERSION@.@BRILDAQNIVISA_PATCH_VERSION@."
   artifacts:
     paths:
       # The folder that contains the files to be exposed at the Page URL
